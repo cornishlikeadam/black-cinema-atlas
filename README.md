@@ -1,5 +1,7 @@
 # Black Cinema Atlas
 
+[Open the public Atlas](https://black-cinema-atlas.fresh-cream-7054.chatgpt.site) · [Agent handoff](docs/HANDOFF.md) · [Connect SMS](docs/CONNECT-SMS.md)
+
 A Black cinema explorer built from [gnovotny/nothing-to-watch](https://github.com/gnovotny/nothing-to-watch). Discover films through cast, filmmakers, decades, themes and settings, then ask a movie guide for grounded suggestions.
 
 ## Current build

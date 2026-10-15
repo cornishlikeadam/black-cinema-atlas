@@ -1,50 +1,50 @@
 # Agent handoff — Black Cinema Atlas
 
-Last updated: 2026-10-15. This file and GitHub checkpoints are the continuity record if the current agent session ends. Never ask the user to paste API keys in chat, print `.env.local`, or commit credentials.
+Updated 2026-10-15. User requests checkpoints on GitHub after every meaningful step so a separate agent can continue. Keep this handoff accurate. Never expose/commit credentials or print `.env.local`.
 
-## User intent and authorization
+## Current outcome
 
-Build the complete cloud-hosted Black cinema explorer, original Voroforce visual engine, dynamic TMDB data, Gemini website chat, group movie night, watchlist, and a real SMS agent. User wants the app usable by other people without their computer running. Keep GitHub and the live site updated. Use REA to investigate the example and honestly document any limits. User specifically asks for GitHub updates at every meaningful step so another agent can continue.
+**Public site:** https://black-cinema-atlas.fresh-cream-7054.chatgpt.site
 
-## Source and hosting identity
+**GitHub:** https://github.com/cornishlikeadam/black-cinema-atlas (fork of gnovotny/nothing-to-watch).
 
-- GitHub: https://github.com/cornishlikeadam/black-cinema-atlas (fork of gnovotny/nothing-to-watch).
-- Site project: `appgprj_6ad1029b4b308191b4786026d9f87b43`, already registered. **Do not create a duplicate Site.** Reuse `.openai/hosting.json`.
-- Site slug: black-cinema-atlas. First deployment is pending at this checkpoint. Site currently owner-private; the user wants public usage, so publish with public access when ready.
-- Use the Sites skill/source helper for source push, exact-commit packaging, version save and deployment. Preserve GitHub origin when adding the Sites source remote. Push both repositories after each meaningful change.
+The explorer, cloud API/database, website movie guide, movie details/connections, watchlists/preferences, trailers/viewing links, and group shortlists/voting are implemented and deployed. They run independently of the owner's device. **Only SMS account/number activation is intentionally deferred**, at the user's explicit request: “just keep that as the only unfinished piece … connect the number tomorrow.” The SMS code is deployed and unit-tested, but no actual phone delivery has been verified. Follow [CONNECT-SMS.md](CONNECT-SMS.md) next.
 
-## Implemented
+## Verification
 
-Original Voroforce rendering now works with runtime RGBA poster sheets, using a real TMDB-backed 95-film starter collection. Search, filters, detail modal, credits, connection graph, trailers/provider links, Gemini tool calls, cloud schema, watchlists, group votes and secure Twilio webhook are implemented. Local API and interface run at port 3000. Production bundle has built successfully once; source changed since that build.
+- Ten Node tests pass: catalog/search/runtime constraints, graph credit provenance and paths, ranking, isolated persisted sessions, origin/body checks, group vote upsert, atomic limits, Twilio signatures/STOP/deduplication, Gemini tools/history, and bounded overload fallback.
+- Browser checks passed for Voroforce rendering, search, save, detail credits/connections/providers, group link/vote, compact shortlist detail cards, and phone-width guide/explorer layouts.
+- Production checks passed on 2026-10-15 at 22:04 UTC for public services/search, live provider data, D1 preferences, shared votes, real Gemini tools and chat history. See [PRODUCTION-VERIFICATION.json](PRODUCTION-VERIFICATION.json).
+- Reusable production check: `node scripts/smoke-production.mjs https://black-cinema-atlas.fresh-cream-7054.chatgpt.site --chat`. It uses a fresh anonymous session, creates a test group, and clears its test history/preferences. No credentials are read by the script.
+- Automatic GitHub Actions is **not enabled**: the authenticated OAuth app lacks `workflow` scope. `docs/github-actions-template.yml` is ready to install when that permission is deliberately granted. Tests/builds were run before publication.
+- Runtime dependency audit reports no known vulnerabilities; four moderate advisories remain in development-only Drizzle tooling. Do not use a breaking audit-force downgrade.
 
-Live credentials for TMDB and Gemini were saved by the user in ignored `.env.local`; both providers were successfully tested. No OpenAI key is needed. OpenCode's free endpoint explicitly disallows third-party app use; do not use it. No local AI service belongs in the final deployment.
+## Hosting and credentials
 
-REA MCP calls failed with transport errors; pinned CLI ran out of memory. No successful Evidence IDs. `docs/REA-FINDINGS.md` records only manual inspection of captured shipped bytes and exact limitations.
+- Reuse `.openai/hosting.json`: project `appgprj_6ad1029b4b308191b4786026d9f87b43`. **Never create a duplicate Site.** Audience is public as requested.
+- Last application publication at this checkpoint: source `a28b06ae600f749d93c85d97bdbf5da82371d819`, version 3 `appgprj_6ad1029b4b308191b4786026d9f87b43~appgver_30e4657c749081918638e6625c400662`, deployment `appgdep_6ad14de7ab988191b3351afb7b2086b6`, environment revision 3. Subsequent documentation-only checkpoint may have a newer saved version; inspect current Sites state before updates.
+- TMDB and Gemini secrets are configured in Sites and in ignored `.env.local`. No OpenAI key is needed. No local AI process is used. OpenCode's free service rejects external apps; do not use it.
+- Production model is `gemini-2.5-flash-lite`, fallback `gemini-2.5-flash`. Early Flash requests returned provider HTTP 503 demand errors. Bounded retries/fallback were added and the hosted guide then passed. Rate-limit responses remain errors; no paid-service upgrade was activated.
+- `PUBLIC_ORIGIN` is set. `SMS_ENABLED=false`. Twilio auth token and phone remain to be connected. User's Twilio browser was at the final payment step when they deferred it; leave that flow to them.
+- Use native Sites environment tools for secrets and redeploy a saved version to apply them. Never place secrets in source, `.openai/hosting.json`, browser storage, helper arguments, logs, or output.
 
-## Pending work, in order
+## Source continuity
 
-1. Finish browser QA and rebuild after changes. Search, film saving, detail connections and live country-specific providers passed. Live Gemini exposed overly loose theme inputs; tool schemas now constrain filters to the actual collection facets. Re-test a 1990s Black love request, compact chat/group film cards, and responsive layout.
-2. Finish dependency update verification (critical inherited Vitest/texture-compressor dependencies were updated/removed; only development-tool moderate advisories remained in lockfile audit). Nine Atlas Node tests now pass, covering graph/search, sessions, origin checks, voting, limits, Twilio signatures/STOP, and tool-calling history. CI template is in docs/github-actions-template.yml. GitHub rejected active workflow creation because the current OAuth token lacks workflow scope, so automated CI is not enabled. Tests/build run locally before pushes.
-3. Configure hosted Gemini/TMDB secrets using native Sites tools, never plaintext output. Set PUBLIC_ORIGIN to the exact Site origin. Keep SMS_ENABLED=false until activation.
-4. Package/push exact source with Sites workflow, save version and deploy. Apply hosted D1 migrations through publication. Switch the intended audience to public and verify unauthenticated site/API, database preferences and real Gemini tools on production. No production deployment is verified yet.
-5. Continue Twilio setup. User created trial account. Account SID is present locally; auth token and phone number were blank last checked. Inventory showed no verified active number; re-check rather than assume. Latest browser has redirected to Twilio login. Do not buy a number/upgrade/accept binding terms without the required user action/approval. Prepare exact webhook and account steps first. Only claim SMS live after inbound and outbound verification.
-6. Update this handoff with deployment URL, tested behaviors, remaining blockers, and checkpoint SHA, then push GitHub again.
+Push meaningful checkpoints to GitHub's main branch, and publish website code edits through the Sites skill/source helper using the exact pushed commit and matching archive. The helper uses the supplied remote without overwriting GitHub origin. Keep credentials in session memory/stdin. Configure source credentials anew when expired.
 
-## Design/runtime notes
+Checkpoints: `3059f33` initial complete build; `e4b1730` tests/filter schema and CI permission workaround; `408cd21` first-publication diagnostics; `a28b06a` provider resilience and production-check script. Source and documentation are available on GitHub even if this agent session ends.
 
-The collection is editorial, not every Black film. Metadata refreshed on detail requests is cached 6 hours in D1. Layout currently sorts by decade/director/primary theme on the original lattice; it is not an embedding-based layout. Graph connections are separate verified credits/editorial tags. Live providers are checked for subscription filtering; no invented availability. Guest data follows cookie; account sign-in follows Sites identity. SMS/web histories are separate. AI free tier is quota-limited, not unlimited free public traffic.
+## Architecture and product limits
 
-Use `npm test` for Atlas Node tests once present; `npm run build` for Worker packaging; `npm run dev` for local Vite/API/SQLite. Only the local preview needs Node's SQLite. The cloud Worker uses D1. Secret files, generated bundle and local database are ignored.
+- React/Vite frontend; original Voroforce engine adapted for live RGBA poster sheets. Poster wall supports still/keyboard browsing. Canvas sorting uses decade/director/primary-theme groups on the original lattice, not embedding-based layout.
+- `atlas/graph.mjs`: film/person/genre/theme/city/decade nodes and typed relationships. Credits come from TMDB; themes/settings are editorial. Graph tools and visual detail connections use the same relationships.
+- `atlas/service.mjs`: API, movie cache, Gemini tools, sessions, groups/votes, secure SMS webhook. `atlas/worker.mjs`: cloud entrypoint/assets/media proxy.
+- D1 owns persistent preferences/history/cache/groups. `db/schema.ts` and immutable `drizzle/` migrations own schema. Append migrations after deployment. Local preview uses Node SQLite in ignored `work/`.
+- The 95-film collection is an editorial starter, not every Black film or an automated ethnicity classifier. Metadata/provider data refresh live with a six-hour cache. Streaming is country-specific and verified before subscription matches are claimed; absence/failed refresh is not treated as availability.
+- Guest data follows an HttpOnly cookie; Sites account sign-in uses platform identity across devices. Web/SMS histories remain separate. Chat history older than 30 days is excluded and cleaned on new chat writes. Group links are shareable to anyone holding the link; use nicknames rather than private information.
+- AI is subject to provider availability/quotas. App caps: 200 turns/day globally, 8/minute, 40/web user/day, 20/SMS user/day. A turn can contain multiple model/tool requests. This is not unlimited free traffic.
+- REA MCP calls failed with transport errors; pinned CLI exhausted memory. No Evidence IDs. [REA-FINDINGS.md](REA-FINDINGS.md) explicitly distinguishes manual shipped-byte findings from successful REA execution. Original source was forked and reused.
 
-## Checkpoints
+## Commands
 
-- `3059f33`: first complete source checkpoint, pushed to GitHub; no credentials.
-- Next checkpoint: tests/CI, tighter agent filter schemas and verification progress.
-
-## First hosted publication
-
-Public site is deployed: https://black-cinema-atlas.fresh-cream-7054.chatgpt.site . Version 1 source e4b1730; deployment `appgdep_6ad14ce5aa3081919413df70fa19d860`, environment revision 2. Anonymous status/search/profile respond 200; D1 preferences and group vote requests respond successfully. Hosted AI returned 502 despite local live Gemini success. Next patch adds safe upstream diagnostics to identify the cloud-specific failure. Do not claim the deployed guide verified yet. Runtime Gemini/TMDB secrets are configured in Sites; PUBLIC_ORIGIN is set; SMS_ENABLED remains false. Twilio is waiting on user completion of final $20 upgrade payment. Do not complete payment for them.
-
-## Cloud diagnosis and SMS deferral
-
-User explicitly deferred Twilio number/payment connection until tomorrow and wants it to be the only unfinished activation. Do not touch their payment flow. Prepare precise setup instructions. Hosted Google errors were HTTP 503 UNAVAILABLE due model demand, not authentication or geography. New source adds bounded retries plus Flash-Lite fallback. Flash-Lite was verified with the saved key. The production verification script now maintains all Set-Cookie entries; its earlier D1 failure was a test-cookie bug, and direct hosted persistence passed. Re-run scripts/smoke-production.mjs with --chat after deploying the resilience patch.
+Node 24+: `npm ci`, `npm test`, `npm run build`, `npm run dev` (local port 3000). Server runtime secrets are separate from build output. `dist/server/index.js` bundles assets/seed; `dist/drizzle` includes migrations. `docs/upstream-bun.lock` preserves the original lock; npm owns the active lock. Preserve upstream license and shader attribution, including noncommercial/share-alike conditions.
