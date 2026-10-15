@@ -7,7 +7,11 @@
   "rewrites": [
     {
       "source": "/media/(.*)",
-      "destination": "/api/index.js"
+      "destination": "/api"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
     },
     {
       "source": "/((?!api|media|assets|favicon\\.svg|og\\.jpg|robots\\.txt|sitemap\\.xml|LICENSE).*)",

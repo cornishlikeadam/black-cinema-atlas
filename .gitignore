@@ -39,3 +39,4 @@ public/tmp.webm
 .sites-runtime/
 atlas/generated-assets.mjs
 work/
+.vercel

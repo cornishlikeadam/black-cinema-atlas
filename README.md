@@ -1,5 +1,7 @@
 # Black Cinema Atlas ✦
 
+**Live Application:** [https://black-cinema-atlas.vercel.app](https://black-cinema-atlas.vercel.app)
+
 ![Black Cinema Atlas](public/og.jpg)
 
 > **Every story connects.**  
@@ -78,7 +80,7 @@ Films in the Atlas are tagged through an editorial taxonomy celebrating Black em
 
 ## 📱 Getting Started as a Viewer
 
-1. **Visit the Atlas:** Navigate to the live web application on desktop or mobile.
+1. **Visit the Atlas:** Open the live platform at [https://black-cinema-atlas.vercel.app](https://black-cinema-atlas.vercel.app) on desktop or mobile.
 2. **Choose Your View:** Use the top toolbar to toggle between the **Voronoi Atlas** (cosmic spatial view) and the **Poster Wall** (grid view).
 3. **Filter & Connect:** Filter by Decade, Genre, Theme, or Setting, or use the **Connect by** selector to cluster films by director or shared motifs.
 4. **Consult The Griot:** Tap **Ask the guide** at any point for bespoke recommendations, film pairings, or background notes.
@@ -95,10 +97,10 @@ Films in the Atlas are tagged through an editorial taxonomy celebrating Black em
 
 ---
 
-## 📬 Contact & Submissions
+## 📬 Platform Access & Contact
 
-Have a film recommendation, an archival print lead, or an independent project to suggest?  
-- **Website:** [Black Cinema Atlas](https://github.com/cornishlikeadam/black-cinema-atlas)
-- **Email:** curatorial@blackcinemaatlas.com
+- **Live Application:** [https://black-cinema-atlas.vercel.app](https://black-cinema-atlas.vercel.app)
+- **Repository:** [https://github.com/cornishlikeadam/black-cinema-atlas](https://github.com/cornishlikeadam/black-cinema-atlas)
+- **Curatorial Contact:** curatorial@blackcinemaatlas.com
 
 *Every story connects.*

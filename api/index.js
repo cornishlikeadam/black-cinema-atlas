@@ -5,7 +5,13 @@ export default async function handler(req, res) {
   try {
     const host = req.headers.host || 'localhost:3000';
     const proto = req.headers['x-forwarded-proto'] || 'https';
-    const url = new URL(req.url, `${proto}://${host}`);
+    const matchedPath = req.headers['x-matched-path'] || req.headers['x-vercel-matched-path'];
+    let reqPath = req.url;
+    if (matchedPath && (matchedPath.startsWith('/api') || matchedPath.startsWith('/media'))) {
+      const qIdx = req.url.indexOf('?');
+      reqPath = matchedPath + (qIdx >= 0 ? req.url.slice(qIdx) : '');
+    }
+    const url = new URL(reqPath, `${proto}://${host}`);
 
     // Support TMDB image proxying for /media/...
     if (url.pathname.startsWith('/media/')) {
