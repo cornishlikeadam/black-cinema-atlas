@@ -44,3 +44,7 @@ Use `npm test` for Atlas Node tests once present; `npm run build` for Worker pac
 ## First hosted publication
 
 Public site is deployed: https://black-cinema-atlas.fresh-cream-7054.chatgpt.site . Version 1 source e4b1730; deployment `appgdep_6ad14ce5aa3081919413df70fa19d860`, environment revision 2. Anonymous status/search/profile respond 200; D1 preferences and group vote requests respond successfully. Hosted AI returned 502 despite local live Gemini success. Next patch adds safe upstream diagnostics to identify the cloud-specific failure. Do not claim the deployed guide verified yet. Runtime Gemini/TMDB secrets are configured in Sites; PUBLIC_ORIGIN is set; SMS_ENABLED remains false. Twilio is waiting on user completion of final $20 upgrade payment. Do not complete payment for them.
+
+## Cloud diagnosis and SMS deferral
+
+User explicitly deferred Twilio number/payment connection until tomorrow and wants it to be the only unfinished activation. Do not touch their payment flow. Prepare precise setup instructions. Hosted Google errors were HTTP 503 UNAVAILABLE due model demand, not authentication or geography. New source adds bounded retries plus Flash-Lite fallback. Flash-Lite was verified with the saved key. The production verification script now maintains all Set-Cookie entries; its earlier D1 failure was a test-cookie bug, and direct hosted persistence passed. Re-run scripts/smoke-production.mjs with --chat after deploying the resilience patch.

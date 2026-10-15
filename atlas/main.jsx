@@ -22,7 +22,7 @@ function FilmDetail({film,onClose,onSelect,profile,updateProfile,ask,region}){
 }
 function Guide({open,setOpen,askRef,onSelect,profile,context}){
  const [messages,setMessages]=useState([]),[input,setInput]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState('');const end=useRef(null);
- useEffect(()=>{api('/api/history').then(d=>setMessages(d.messages.map(m=>({role:m.role,text:m.content})))).catch(()=>{})},[]);
+ useEffect(()=>{api('/api/history').then(d=>setMessages(current=>current.length?current:d.messages.map(m=>({role:m.role,text:m.content})))).catch(()=>{})},[]);
  useEffect(()=>{if(messages.length||busy)end.current?.scrollIntoView({block:'nearest'})},[messages,busy]);
  async function send(text=input,extra={}){if(!String(text).trim()||busy)return;setOpen(true);setInput('');setError('');setMessages(m=>[...m,{role:'user',text}]);setBusy(true);try{const d=await post('/api/chat',{message:text,context:{...context,...extra}});setMessages(m=>[...m,{role:'assistant',text:d.message,films:d.films,tools:d.tools_used}])}catch(e){setError(e.message)}finally{setBusy(false)}}
  askRef.current=send;

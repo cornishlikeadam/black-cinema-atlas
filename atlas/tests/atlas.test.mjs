@@ -68,3 +68,8 @@ test('guide performs tool round-trip and persists history without exposing secre
  globalThis.fetch=async(url,opts)=>{assert.match(url,/generativelanguage.googleapis.com/);const body=JSON.parse(opts.body);calls++;if(calls===1)return Response.json({candidates:[{content:{role:'model',parts:[{functionCall:{name:'search_films',args:{query:'Moonlight'}}}]}}]});assert.equal(body.contents.at(-1).parts[0].functionResponse.response.result.films[0].id,moon.id);return Response.json({candidates:[{content:{role:'model',parts:[{text:'Moonlight (2016) is a thoughtful coming-of-age story.'}]}}]})};
  try{const answer=await chat({DB,GEMINI_API_KEY:'fake-key'},'guest:test','A thoughtful film');assert.equal(calls,2);assert.deepEqual(answer.tools_used,['search_films']);assert.equal(answer.films[0].id,moon.id);assert.ok(!JSON.stringify(answer).includes('fake-key'));assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM messages').first()).n,2)}finally{globalThis.fetch=savedFetch;DB.close()}
 });
+test('guide retries provider overload and uses a bounded Gemini fallback',async()=>{
+ const DB=database(),savedFetch=globalThis.fetch,urls=[];
+ globalThis.fetch=async(url)=>{urls.push(String(url));if(urls.length<=2)return Response.json({error:{status:'UNAVAILABLE',message:'Temporary overload'}},{status:503});return Response.json({candidates:[{content:{role:'model',parts:[{text:'Which mood would you like tonight?'}]}}]})};
+ try{const answer=await chat({DB,GEMINI_API_KEY:'fake-key'},'guest:fallback','Help me choose');assert.equal(urls.length,3);assert.match(urls[2],/gemini-2.5-flash-lite/);assert.match(answer.message,/mood/)}finally{globalThis.fetch=savedFetch;DB.close()}
+});

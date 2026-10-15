@@ -35,7 +35,7 @@ The build emits a cloud Worker at `dist/server/index.js`, embeds frontend assets
 
 ## Configuration
 
-See [.env.example](.env.example) for names only. Use either TMDB's read access token or API key, plus a Gemini API key. The guide defaults to `gemini-2.5-flash`. Free-tier availability and quota depend on the provider; app caps default to 200 chat turns/day globally, 8/minute, and 40/user/day (20/SMS user/day). Each turn can make several tool/model calls, so provider quota can be reached earlier. No paid fallback is enabled.
+See [.env.example](.env.example) for names only. Use either TMDB's read access token or API key, plus a Gemini API key. The guide supports `gemini-2.5-flash` and `gemini-2.5-flash-lite`; production uses Flash-Lite for faster replies. Temporary provider 5xx responses receive bounded retries/fallback within the same Gemini project; rate-limit responses are respected. Free-tier availability and quota depend on the provider; app caps default to 200 chat turns/day globally, 8/minute, and 40/user/day (20/SMS user/day). Each turn can make several tool/model calls, so provider quota can be reached earlier. No paid fallback is enabled.
 
 SMS needs a messaging-capable Twilio number, account SID, auth token, public HTTPS origin, and `SMS_ENABLED=true`. Set the number's inbound messaging webhook to `POST https://<public-origin>/api/sms`. Keep SMS disabled until the account is eligible and the number/webhook are verified. Trial restrictions and carrier registration can prevent public use. Web and SMS histories are separate.
 
