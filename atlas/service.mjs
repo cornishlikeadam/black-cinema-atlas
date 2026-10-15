@@ -87,7 +87,7 @@ export async function chat(env,uid,message,context={},channel='web'){
  let answer='';
  for(let round=0;round<4;round++){
   const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${env.GEMINI_MODEL??'gemini-2.5-flash'}:generateContent`,{method:'POST',headers:{'x-goog-api-key':env.GEMINI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({systemInstruction:{parts:[{text:system}]},contents,tools:[{functionDeclarations:toolSchemas}],generationConfig:{temperature:0.4,maxOutputTokens:800,thinkingConfig:{thinkingBudget:0}}}),signal:AbortSignal.timeout(24000)});
-  if(!res.ok)throw new AppError(res.status===429?'The free AI service is busy. Please try again later.':'The movie guide is temporarily unavailable.',res.status===429?429:502);
+  if(!res.ok){let detail;try{detail=await res.json()}catch{};console.error('Gemini upstream',res.status,detail?.error?.status??'unknown',String(detail?.error?.message??'').replaceAll(env.GEMINI_API_KEY,'[redacted]').slice(0,500));throw new AppError(res.status===429?'The free AI service is busy. Please try again later.':'The movie guide is temporarily unavailable.',res.status===429?429:502)}
   const data=await res.json(),content=data.candidates?.[0]?.content;if(!content?.parts?.length)throw new AppError('The guide could not answer that. Try a different movie question.',502);
   const calls=content.parts.filter(p=>p.functionCall);if(calls.length>8)throw new AppError('Please narrow that search to a few films.',400);
   if(!calls.length){answer=content.parts.filter(p=>!p.thought).map(p=>p.text??'').join('\n').trim();break}

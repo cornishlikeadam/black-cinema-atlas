@@ -40,3 +40,7 @@ Use `npm test` for Atlas Node tests once present; `npm run build` for Worker pac
 
 - `3059f33`: first complete source checkpoint, pushed to GitHub; no credentials.
 - Next checkpoint: tests/CI, tighter agent filter schemas and verification progress.
+
+## First hosted publication
+
+Public site is deployed: https://black-cinema-atlas.fresh-cream-7054.chatgpt.site . Version 1 source e4b1730; deployment `appgdep_6ad14ce5aa3081919413df70fa19d860`, environment revision 2. Anonymous status/search/profile respond 200; D1 preferences and group vote requests respond successfully. Hosted AI returned 502 despite local live Gemini success. Next patch adds safe upstream diagnostics to identify the cloud-specific failure. Do not claim the deployed guide verified yet. Runtime Gemini/TMDB secrets are configured in Sites; PUBLIC_ORIGIN is set; SMS_ENABLED remains false. Twilio is waiting on user completion of final $20 upgrade payment. Do not complete payment for them.
