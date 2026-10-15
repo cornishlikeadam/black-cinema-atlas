@@ -57,8 +57,9 @@ export async function consumeLimit(env,key,max,windowMs){
  const row=await env.DB.prepare('INSERT INTO counters(key,count,expires_at) VALUES(?,1,?) ON CONFLICT(key) DO UPDATE SET count=count+1 RETURNING count').bind(id,(bucket+1)*windowMs).first();
  if(row.count>max)throw new AppError('The guide has reached its usage limit. Please try again later.',429);
 }
+const facet=field=>({type:'STRING',enum:['',...new Set(seed.flatMap(f=>f[field]))]});
 const toolSchemas=[
- {name:'search_films',description:'Search the curated Black cinema catalog by film, person, theme, genre, decade or city.',parameters:{type:'OBJECT',properties:{query:{type:'STRING'},decade:{type:'STRING'},genre:{type:'STRING'},theme:{type:'STRING'},city:{type:'STRING'}},required:['query']}},
+ {name:'search_films',description:'Search the curated Black cinema catalog by film, person, theme, genre, decade or city.',parameters:{type:'OBJECT',properties:{query:{type:'STRING',description:'Title, person name or keywords only; use an empty string when using filters. Do not include words like movie, film or story.'},decade:facet('decade'),genre:facet('genres'),theme:facet('themes'),city:facet('cities')},required:['query']}},
  {name:'get_film',description:'Get verified credits, runtime, trailer and current country-specific viewing providers. Call before claiming availability.',parameters:{type:'OBJECT',properties:{id:{type:'INTEGER'},region:{type:'STRING'}},required:['id']}},
  {name:'get_connections',description:'Find films linked by cast, director, themes, cities, genres or decade.',parameters:{type:'OBJECT',properties:{id:{type:'INTEGER'},type:{type:'STRING'}},required:['id']}},
  {name:'recommend',description:'Rank movies for mood, time, liked films and group interests. Subscription filters use live provider checks.',parameters:{type:'OBJECT',properties:{mood:{type:'STRING'},time:{type:'INTEGER'},subscriptions:{type:'ARRAY',items:{type:'STRING'}},liked_ids:{type:'ARRAY',items:{type:'INTEGER'}},region:{type:'STRING'},group:{type:'ARRAY',items:{type:'OBJECT',properties:{name:{type:'STRING'},interests:{type:'STRING'}},required:['name','interests']}}}}},

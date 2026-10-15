@@ -29,9 +29,11 @@ export function findPath(index,a,b){
 }
 export function filterFilms(films,filters={}){
  const query=normalize(filters.q??filters.query),tokens=query.split(' ').filter(Boolean);
+ const equal=(a,b)=>normalize(a)===normalize(b);
+ const includes=(values,value)=>values.some(v=>equal(v,value));
  return films.filter(f=>{
   const hay=normalize([f.title,f.year,f.decade,...f.genres,...f.themes,...f.cities,...f.people.map(p=>p.name)].join(' '));
-  return (!query||tokens.every(t=>hay.includes(t)))&&(!filters.decade||f.decade===filters.decade)&&(!filters.genre||f.genres.includes(filters.genre))&&(!filters.theme||f.themes.includes(filters.theme))&&(!filters.city||f.cities.includes(filters.city))&&(!filters.person||f.people.some(p=>String(p.id)===String(filters.person)))&&(!Number(filters.max_runtime)||(f.runtime>0&&f.runtime<=Number(filters.max_runtime)));
+  return (!query||tokens.every(t=>hay.includes(t)))&&(!filters.decade||equal(f.decade,filters.decade))&&(!filters.genre||includes(f.genres,filters.genre))&&(!filters.theme||includes(f.themes,filters.theme))&&(!filters.city||includes(f.cities,filters.city))&&(!filters.person||f.people.some(p=>String(p.id)===String(filters.person)))&&(!Number(filters.max_runtime)||(f.runtime>0&&f.runtime<=Number(filters.max_runtime)));
  });
 }
 const moods={funny:['Comedy'],romantic:['Romance'],thrilling:['Thriller','Horror'],inspiring:['History','Sports','Excellence','Resilience'],family:['Animation','Family'],thoughtful:['Drama','Identity','Art']};

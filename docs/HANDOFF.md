@@ -23,8 +23,8 @@ REA MCP calls failed with transport errors; pinned CLI ran out of memory. No suc
 
 ## Pending work, in order
 
-1. Complete meaningful API/security/graph tests and browser interaction QA. Rebuild after changes. Check responsive layout and film details opened from compact chat/group cards.
-2. Finish dependency update verification (critical inherited Vitest/texture-compressor dependencies were updated/removed; only development-tool moderate advisories remained in lockfile audit). Tests do not exist yet at this checkpoint.
+1. Finish browser QA and rebuild after changes. Search, film saving, detail connections and live country-specific providers passed. Live Gemini exposed overly loose theme inputs; tool schemas now constrain filters to the actual collection facets. Re-test a 1990s Black love request, compact chat/group film cards, and responsive layout.
+2. Finish dependency update verification (critical inherited Vitest/texture-compressor dependencies were updated/removed; only development-tool moderate advisories remained in lockfile audit). Nine Atlas Node tests now pass, covering graph/search, sessions, origin checks, voting, limits, Twilio signatures/STOP, and tool-calling history. GitHub CI runs tests/build on pushes.
 3. Configure hosted Gemini/TMDB secrets using native Sites tools, never plaintext output. Set PUBLIC_ORIGIN to the exact Site origin. Keep SMS_ENABLED=false until activation.
 4. Package/push exact source with Sites workflow, save version and deploy. Apply hosted D1 migrations through publication. Switch the intended audience to public and verify unauthenticated site/API, database preferences and real Gemini tools on production. No production deployment is verified yet.
 5. Continue Twilio setup. User created trial account. Account SID is present locally; auth token and phone number were blank last checked. Inventory showed no verified active number; re-check rather than assume. Latest browser has redirected to Twilio login. Do not buy a number/upgrade/accept binding terms without the required user action/approval. Prepare exact webhook and account steps first. Only claim SMS live after inbound and outbound verification.
@@ -35,3 +35,8 @@ REA MCP calls failed with transport errors; pinned CLI ran out of memory. No suc
 The collection is editorial, not every Black film. Metadata refreshed on detail requests is cached 6 hours in D1. Layout currently sorts by decade/director/primary theme on the original lattice; it is not an embedding-based layout. Graph connections are separate verified credits/editorial tags. Live providers are checked for subscription filtering; no invented availability. Guest data follows cookie; account sign-in follows Sites identity. SMS/web histories are separate. AI free tier is quota-limited, not unlimited free public traffic.
 
 Use `npm test` for Atlas Node tests once present; `npm run build` for Worker packaging; `npm run dev` for local Vite/API/SQLite. Only the local preview needs Node's SQLite. The cloud Worker uses D1. Secret files, generated bundle and local database are ignored.
+
+## Checkpoints
+
+- `3059f33`: first complete source checkpoint, pushed to GitHub; no credentials.
+- Next checkpoint: tests/CI, tighter agent filter schemas and verification progress.
