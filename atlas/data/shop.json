@@ -1,0 +1,324 @@
+{
+  "categories": [
+    { "id": "all", "label": "All Artifacts" },
+    { "id": "art-prints", "label": "Fine Art & Posters" },
+    { "id": "apparel", "label": "Auteur Apparel" },
+    { "id": "books-vinyl", "label": "Books & Soundtracks" },
+    { "id": "lifestyle", "label": "Cinema Living" }
+  ],
+  "items": [
+    {
+      "id": "bedstuy-heatwave-poster",
+      "title": "Bed-Stuy Heatwave '89 Screen-Print",
+      "category": "art-prints",
+      "categoryLabel": "Fine Art Prints",
+      "price": 48.00,
+      "badge": "Limited Edition",
+      "artist": "Malik Adebayo",
+      "artistLocation": "Brooklyn, New York",
+      "artistBio": "Malik is a Bed-Stuy native and printmaker whose work channels 1980s Brooklyn street photography, vibrant signage, and cinematic warmth.",
+      "image": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=900&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=900&auto=format&fit=crop&q=80"
+      ],
+      "connectedFilm": "Do the Right Thing (1989)",
+      "connectedFilmId": 925,
+      "shortDescription": "4-color hand-pulled silkscreen capturing the sweltering heat, stoop conversations, and fiery pulse of Spike Lee's landmark 1989 film.",
+      "description": "Printed by hand on French 100lb cover stock in radiant crimson, cadmium yellow, and asphalt black. Each print is hand-inspected, numbered in pencil, and stamped with the Atlas Archive seal. A vibrant homage to the block, the fire hydrants, and the radio sounds that defined an era of unapologetic Black storytelling.",
+      "specs": [
+        "18\" × 24\" standard frame size",
+        "Hand-pulled 4-color silkscreen",
+        "French Paper Co. 100lb archival cover",
+        "Hand-numbered edition of 300",
+        "Ships rolled in heavy-duty kraft tube"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "love-jones-sanctuary-print",
+      "title": "Sanctuary Blues: Chicago Poetry Risograph",
+      "category": "art-prints",
+      "categoryLabel": "Fine Art Prints",
+      "price": 38.00,
+      "badge": "Bestseller",
+      "artist": "Nia Thorne",
+      "artistLocation": "Chicago, Illinois",
+      "artistBio": "Nia Thorne explores romanticism, spoken word culture, and urban intimacy across the Black Midwest through dual-drum risograph printmaking.",
+      "image": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=900&auto=format&fit=crop&q=80"
+      ],
+      "connectedFilm": "Love Jones (1997)",
+      "connectedFilmId": 26979,
+      "shortDescription": "Two-drum risograph print honoring Theodore Witcher's 1997 masterpiece of Black bohemian love, jazz clubs, and rainy Chicago nights.",
+      "description": "A love letter to Nina and Darius. Printed using soya-based soy inks in Federal Blue and Metallic Copper, creating a tactile stippled gradient that mirrors the glow of low-lit lounge stages and late-night vinyl sessions.",
+      "specs": [
+        "11\" × 17\" tabloid archival art print",
+        "2-color soy-based risograph print",
+        "Mohawk Superfine Eggshell paper",
+        "Embossed artist chop mark",
+        "Ships flat with rigid backing"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "daughters-dust-indigo-giclee",
+      "title": "Indigo Waters: Gullah Geechee Giclée",
+      "category": "art-prints",
+      "categoryLabel": "Fine Art Prints",
+      "price": 65.00,
+      "badge": "Archival",
+      "artist": "Zuri Washington",
+      "artistLocation": "St. Helena Island, South Carolina",
+      "artistBio": "Zuri is a visual artist and cultural preservationist celebrating Sea Island traditions, ancestral memory, and Black feminine spirituality.",
+      "image": "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=900&auto=format&fit=crop&q=80"
+      ],
+      "connectedFilm": "Daughters of the Dust (1991)",
+      "connectedFilmId": 41258,
+      "shortDescription": "Museum-grade fine art print honoring Julie Dash's historic cinematic tapestry of the Peazant family on the eve of northern migration.",
+      "description": "Richly rendered in ocean indigo, Spanish moss greens, and sun-bleached bone hues. Produced on Hahnemühle Photo Rag archival 308gsm cotton paper with pigment inks guaranteed colorfast for 100+ years. Captures the poetry of the unborn child and ancestral remembrance.",
+      "specs": [
+        "16\" × 20\" archival fine art print",
+        "100% cotton rag 308gsm paper",
+        "UltraChrome HDR archival pigment inks",
+        "Certificate of Authenticity included",
+        "Edition of 150 prints worldwide"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "trailblazers-auteur-tee",
+      "title": "The Auteur Filmography Heavyweight Tee",
+      "category": "apparel",
+      "categoryLabel": "Auteur Apparel",
+      "price": 44.00,
+      "badge": "Community Favorite",
+      "artist": "Atlas Studio Goods",
+      "artistLocation": "Atlanta, Georgia",
+      "artistBio": "Atlas Studio creates tactile everyday garments honoring Black cinematic pioneers, cinematographers, and scriptwriters.",
+      "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=900&auto=format&fit=crop&q=80"
+      ],
+      "shortDescription": "10.5oz vintage-washed heavyweight tee paying tribute to Micheaux, Dash, Burnett, Parks, Singleton, and DuVernay.",
+      "description": "Cut from ultra-heavy 100% combed cotton with a relaxed drop-shoulder silhouette and reinforced collar band. Features a discreet compass rose chest embroidery and archival filmography typography screenprinted on the back in soft-hand cream ink.",
+      "specs": [
+        "10.5 oz / 300 gsm combed ring-spun cotton",
+        "Pre-shrunk vintage garment wash",
+        "Direct-to-fabric soft discharge print",
+        "Sizes: S, M, L, XL, 2XL, 3XL",
+        "Ethically knit and dyed in small batches"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "love-hate-canvas-tote",
+      "title": "Love & Hate 16oz Cinema Tote",
+      "category": "apparel",
+      "categoryLabel": "Auteur Apparel",
+      "price": 34.00,
+      "badge": "New Arrival",
+      "artist": "Atlas Studio Goods",
+      "artistLocation": "Brooklyn, New York",
+      "artistBio": "Crafted in collaboration with Brooklyn textile artisans to carry books, records, 35mm film rolls, and everyday essentials.",
+      "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1544816155-12df9643f363?w=900&auto=format&fit=crop&q=80"
+      ],
+      "connectedFilm": "Do the Right Thing (1989)",
+      "connectedFilmId": 925,
+      "shortDescription": "Heavy-duty canvas tote celebrating cinematic resilience, with brass-knuckle typography and reinforced shoulder webbing.",
+      "description": "Inspired by the unforgettable street philosophy of Radio Raheem. Constructed with double-stitched 16oz unbleached duck canvas, internal zippered valuables pocket, and key leash. Big enough for two 12\" vinyl records or a weekend screenplay draft.",
+      "specs": [
+        "16oz heavy organic cotton canvas",
+        "Dimensions: 16\" H × 18\" W × 5\" D",
+        "Internal zip pocket & key clip",
+        "11\" reinforced strap drop for comfortable shoulder carry",
+        "Woven Atlas archive label"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "afrofuturist-foil-print",
+      "title": "Cosmic Frequency: Afrofuturism Foil Print",
+      "category": "art-prints",
+      "categoryLabel": "Fine Art Prints",
+      "price": 54.00,
+      "badge": "Limited Edition",
+      "artist": "Kojo Mensah",
+      "artistLocation": "Accra / Montreal",
+      "artistBio": "Kojo Mensah is a speculative visualist exploring Black liberation, cybernetics, and cosmic ancestry across African and Caribbean diaspora cinema.",
+      "image": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=900&auto=format&fit=crop&q=80"
+      ],
+      "connectedFilm": "Space Is the Place (1974)",
+      "connectedFilmId": 46838,
+      "shortDescription": "Reflective gold and iridescent foil stamped art print celebrating Afrofuturist cinema, interstellar voyages, and Sun Ra's mythos.",
+      "description": "Stamped with precision hot-foil onto matte obsidian French Plike cardstock. Under ambient light, the celestial constellations and hieroglyphic sound-waves shift between molten gold and electric violet. A beacon for seekers of outer-spatial freedom.",
+      "specs": [
+        "12\" × 18\" foil-stamped art print",
+        "Obsidian 330gsm soft-touch Plike stock",
+        "Dual-foil metallic stamp (Gold & Holo)",
+        "Hand-numbered run of 200 copies",
+        "Packaged in protective crystal sleeve"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "soundtracks-freedom-vinyl",
+      "title": "Soundtracks of Freedom: Curated 180g Vinyl",
+      "category": "books-vinyl",
+      "categoryLabel": "Books & Soundtracks",
+      "price": 42.00,
+      "badge": "Audiophile Pressing",
+      "artist": "Atlas Archive & Vinyl Society",
+      "artistLocation": "Detroit, Michigan",
+      "artistBio": "Compiled in partnership with independent music archivists, restoring iconic cinematic soul, blaxploitation funk, and neo-soul film scores.",
+      "image": "https://images.unsplash.com/photo-1539185441755-769473a23570?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1539185441755-769473a23570?w=900&auto=format&fit=crop&q=80"
+      ],
+      "shortDescription": "Special edition 180g amber-swirl vinyl compilation of essential themes and score cues that redefined the sound of cinema.",
+      "description": "Mastered from original analog reels at half-speed for maximum dynamic range. Includes extensive liner notes by noted film scholars, behind-the-scenes recording session photographs, and a custom gatefold jacket printed on heavyweight raw chipboard.",
+      "specs": [
+        "180-gram heavyweight amber/gold swirl vinyl",
+        "Audiophile half-speed remastering",
+        "24-page full color liner notes booklet",
+        "Heavy chipboard gatefold jacket with matte varnish",
+        "Includes download card for 24-bit/96kHz WAV files"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "black-lens-hardcover-monograph",
+      "title": "Black Lens, Black Light: The Monograph",
+      "category": "books-vinyl",
+      "categoryLabel": "Books & Soundtracks",
+      "price": 58.00,
+      "badge": "First Edition",
+      "artist": "Dr. Angela Robinson & Contributors",
+      "artistLocation": "Los Angeles, California",
+      "artistBio": "A landmark scholarly and artistic survey celebrating Black directors of photography and lighting technicians who shaped visual culture.",
+      "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=900&auto=format&fit=crop&q=80"
+      ],
+      "shortDescription": "288-page clothbound monograph exploring lighting dark skin tones, composition, and visual sovereignty in Black cinema.",
+      "description": "From Ernest Dickerson's saturated neon palettes to Bradford Young's meditative shadows and Arthur Jafa's rhythm of cut. Features over 180 high-fidelity production stills, technical lighting diagrams, and deep interviews with visionary image-makers.",
+      "specs": [
+        "9.5\" × 12\" oversized clothbound hardcover",
+        "288 pages on Munken Print White 150gsm paper",
+        "Embossed foil cover with tip-on image plate",
+        "Foreword by Julie Dash",
+        "Smyth-sewn binding designed to lay flat"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "cinema-sanctuary-scented-candle",
+      "title": "Cinema Sanctuary Hand-Poured Soy Candle",
+      "category": "lifestyle",
+      "categoryLabel": "Cinema Living",
+      "price": 32.00,
+      "badge": "Signature Scent",
+      "artist": "Aroma Noire Apothecary",
+      "artistLocation": "New Orleans, Louisiana",
+      "artistBio": "Handcrafted apothecary specializing in scents inspired by Southern gothic cinema, jazz corridors, and historic theatres.",
+      "image": "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=900&auto=format&fit=crop&q=80"
+      ],
+      "shortDescription": "10oz amber glass candle with notes of Aged Velvet, Smoked Cedar, Warm Tobacco Leaf, and Golden Amber.",
+      "description": "Formulated to recreate the atmosphere of entering a historic independent cinema on an autumn evening. Hand-poured using 100% domestic soy wax, phthalate-free fine fragrance oils, and a crackling FSC-certified cherry wood wick.",
+      "specs": [
+        "10 oz / 285g poured in heavy amber glass jar",
+        "Clean burn time: 65+ hours",
+        "Crackling natural cherry wood wick",
+        "Notes: Red velvet, Spanish cedar, vanilla pipe smoke, amber",
+        "Gold-stamped bakelite twist-top lid"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "black-cinema-enamel-pin-set",
+      "title": "The Golden Age 35mm Enamel Pin Set",
+      "category": "lifestyle",
+      "categoryLabel": "Cinema Living",
+      "price": 24.00,
+      "badge": "Gift Set",
+      "artist": "Atlas Studio Goods",
+      "artistLocation": "Washington, D.C.",
+      "artistBio": "Commemorative jewelry and pins celebrating African American cultural milestones and indie cinema collectives.",
+      "image": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=900&auto=format&fit=crop&q=80"
+      ],
+      "shortDescription": "Set of 3 antique brass and hard enamel pins: The Atlas Compass Rose, 35mm Film Canister, and Vintage Director Clapper.",
+      "description": "Polished hard enamel with rich black cloisonné fill and antique brushed brass detailing. Fitted with dual deluxe rubber clutch backings to securely fasten to jackets, tote bags, or camera straps.",
+      "specs": [
+        "Set of 3 collectible pins (1.25\" to 1.5\" each)",
+        "Hard enamel with antique gold metal finish",
+        "Dual posts with rubber locking clutches",
+        "Mounted on custom letterpress collector card",
+        "Stamped with Atlas Archive hallmark on reverse"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "coming-of-age-canon-syllabus",
+      "title": "The Black Coming-of-Age Canon: Digital Syllabus",
+      "category": "books-vinyl",
+      "categoryLabel": "Books & Soundtracks",
+      "price": 18.00,
+      "badge": "Digital Download",
+      "artist": "Black Cinema Atlas Editorial",
+      "artistLocation": "New York / Los Angeles",
+      "artistBio": "Curated by the Atlas editorial collective and guest film educators, tracing youth, intimacy, and summer warmth across Black cinema.",
+      "image": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=900&auto=format&fit=crop&q=80"
+      ],
+      "shortDescription": "Comprehensive 120-page interactive syllabus & Notion hub covering 50 landmark coming-of-age films, shot breakdowns, and essays.",
+      "description": "An essential syllabus for students, cinephiles, and lovers of Black storytelling. Explores four distinct movements: 'Late 90s Bohemian Romance', 'Southern Roots & Ancestral Memory', 'Afrofuturist Adolescence', and 'Gen Z Digital Intimacy'. Includes high-res printable film trackers, director interview transcripts, and streaming deep-links.",
+      "specs": [
+        "Instant delivery via email & account dashboard",
+        "Interactive Notion Workspace template + 120-page PDF",
+        "50 in-depth film breakdowns with thematic lineage maps",
+        "Printable 8.5\" × 11\" watch checklist & journal prompts",
+        "Free lifetime updates as new films join the canon"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "la-rebellion-film-school",
+      "title": "L.A. Rebellion 'Film School in a Box' Field Guide",
+      "category": "books-vinyl",
+      "categoryLabel": "Books & Soundtracks",
+      "price": 28.00,
+      "badge": "Collector Guide",
+      "artist": "Prof. Marcus Vance & Atlas Press",
+      "artistLocation": "Los Angeles, California",
+      "artistBio": "Marcus Vance is a film historian and 16mm archivist documenting the UCLA radical cinema movement of the 1970s and 1980s.",
+      "image": "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=900&auto=format&fit=crop&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=900&auto=format&fit=crop&q=80"
+      ],
+      "connectedFilm": "Killer of Sheep (1978)",
+      "connectedFilmId": 14674,
+      "shortDescription": "Field guide examining guerilla filmmaking, low-light cinematography, non-actors, and independent distribution.",
+      "description": "Drawing from the revolutionary filmmaking practices of Charles Burnett, Haile Gerima, Julie Dash, and Larry Clark. Provides shot-by-shot analyses of landmark sequences, archival production notes, lighting breakdowns for darker skin tones with natural tungsten, and historical context.",
+      "specs": [
+        "160-page softcover journal printed on uncoated recycled paper",
+        "Includes companion digital PDF and storyboard asset pack",
+        "Rare archival production stills and original director notes",
+        "ISBN registered first edition publication",
+        "Includes embossed bookmark styled as a 16mm film leader"
+      ],
+      "inStock": true
+    }
+  ]
+}

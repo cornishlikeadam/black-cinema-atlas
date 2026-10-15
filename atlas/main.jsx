@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useMemo,useRef,lazy,Suspense} from 'react';
 import {createRoot} from 'react-dom/client';
-import {Globe2,Search,ArrowUpRight,ArrowRight,Bookmark,Heart,Grid2X2,Orbit,Users,MessageCircle,SlidersHorizontal,X,Send,Sparkles,Play,ChevronDown,Check,Plus,Link2,Smartphone,Info,RotateCcw,ArrowLeft,Clock,MapPin} from 'lucide-react';
+import {Globe2,Search,ArrowUpRight,ArrowRight,Bookmark,Heart,Grid2X2,Orbit,Users,MessageCircle,SlidersHorizontal,X,Send,Sparkles,Play,ChevronDown,Check,Plus,Link2,Smartphone,Info,RotateCcw,ArrowLeft,Clock,MapPin,ShoppingBag,Trash2,Tag,BookOpen,CreditCard,Sparkle,ShieldCheck,Truck,ExternalLink} from 'lucide-react';
 import {poster} from './graph.mjs';
 import './style.css';
 import tmdbLogo from './tmdb.svg';
@@ -38,9 +38,238 @@ function MovieNight({profile,onSelect,onSave,updateProfile,ask}){
  return <div className="night-page"><div className="section-title"><span className="eyebrow">BETTER TOGETHER</span><h1>{group?.name??'Make it a movie night.'}</h1><p>A few tastes. One great film. Find something everyone can get behind.</p></div>{!groupId&&<div className="night-form"><div><label htmlFor="members">Who’s watching?</label><textarea id="members" rows="3" value={members} onChange={e=>setMembers(e.target.value)}/><small className="muted">One viewer per line: name, then a colon and their interests.</small></div><div className="form-grid"><label>Mood<select value={mood} onChange={e=>setMood(e.target.value)}>{['funny','romantic','thrilling','inspiring','family','thoughtful'].map(m=><option key={m}>{m}</option>)}</select></label><label>Time available<select value={time} onChange={e=>setTime(e.target.value)}>{[90,100,120,150,180,240].map(t=><option key={t} value={t}>{t} minutes</option>)}</select></label></div><label>Watching in<select value={country} onChange={e=>setCountry(e.target.value)}>{[['US','United States'],['GB','United Kingdom'],['CA','Canada'],['NG','Nigeria'],['ZA','South Africa'],['KE','Kenya'],['FR','France']].map(([v,t])=><option key={v} value={v}>{t}</option>)}</select></label><label>Your streaming services <small>(optional)</small></label><div className="provider-chips">{providers.map(p=><button key={p} className={subs.includes(p)?'active':''} onClick={()=>setSubs(s=>s.includes(p)?s.filter(x=>x!==p):[...s,p])}>{subs.includes(p)&&<Check size={12}/>} {p}</button>)}</div><p className="muted tiny">Leave services empty to discover films across all viewing options.</p><div className="form-actions"><button className="solid" disabled={busy} onClick={find}>{busy?<span className="spinner"/>:<Sparkles size={16}/>}Find our film<ArrowRight size={16}/></button>{results&&<button className="outline" onClick={share} disabled={busy}><Link2 size={15}/>{copied?'Link copied':'Invite friends to vote'}</button>}</div></div>}{group&&<div className="share-box"><Link2 size={17}/><span>{location.origin}/night/{group.id}</span><button className="text-button" onClick={()=>navigator.clipboard.writeText(`${location.origin}/night/${group.id}`).then(()=>setCopied(true))}>{copied?'Copied':'Copy link'}</button></div>}{error&&<p className="error" role="alert">{error}</p>}{results&&<section className="night-results"><h2>Your shortlist</h2><p className="muted">{results.message}</p><div className="shortlist">{results.options.map(f=><div key={f.id}><FilmCard film={f} onSelect={onSelect} onSave={onSave} saved={profile.watchlist.includes(f.id)}/><ul>{f.reasons.map(r=><li key={r}>{r}</li>)}</ul>{group&&<button className="outline full" onClick={async()=>{try{const g=await post(`/api/groups/${group.id}/vote`,{film_id:f.id});setGroup(g)}catch(e){setError(e.message)}}}>Vote for this film · {group.votes?.find(v=>v.film_id===f.id)?.count??0}</button>}<button className="text-button" onClick={()=>ask(`Give a short spoiler-free introduction to ${f.title} and two optional discussion prompts, without revealing plot twists.`,{film_id:f.id})}>Get an introduction<ArrowUpRight size={14}/></button></div>)}</div></section>}</div>
 }
 function About({status}){return <div className="about-page"><span className="eyebrow">THE STORIES BETWEEN THE STORIES</span><h1>A living map<br/>of Black cinema.</h1><p>Black Cinema Atlas connects films through the people who make them, the places they inhabit, and the ideas they share. Start with a favorite. See where it takes you.</p><div className="about-columns"><section><h2>Built for discovery.</h2><p>Our expanding starter collection spans African American classics, contemporary releases, and selected films from Africa and the diaspora. Inclusion is editorial. A film’s presence doesn’t imply that every person in its credits is Black.</p><p>Credits, film details, imagery and trailers come from TMDB. Themes and settings are Atlas editorial tags. Viewing options are supplied by JustWatch through TMDB and vary by country.</p></section><section><h2>Take the guide with you.</h2>{status?.sms?<><p>Text <a href={`sms:${status.phone}`}>{status.phone}</a> for movie suggestions from the same Atlas guide.</p><p>By texting, you request replies about films. Message and data rates may apply. Reply STOP to opt out, START to resume, or HELP for help. No promotional messages.</p></>:<p>Our SMS guide is being connected. Website chat is available now; a texting number will appear here once activation is complete.</p>}<h3>Your preferences stay yours.</h3><p>Watchlists, likes and conversations are saved on the server. Guest preferences follow this browser’s private session; signing in lets preferences follow your account. Web and SMS histories are separate. Chat messages are sent to Google Gemini to generate replies. Free-tier processing follows Google’s data terms; don’t include private information. Clear chat from the guide at any time.</p></section></div><div className="credits"><a href="https://www.themoviedb.org" target="_blank" rel="noreferrer" className="tmdb-logo"><img src={tmdbLogo} alt="TMDB" width="140" height="22"/></a><p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p><p>Viewing availability powered by <a href="https://www.justwatch.com" target="_blank" rel="noreferrer">JustWatch</a>.</p><p>Built from <a href="https://github.com/gnovotny/nothing-to-watch" target="_blank" rel="noreferrer">There’s nothing to watch</a> by gnovotny. Voroforce shader attribution: original authors, CC BY-NC-SA 3.0. See <a href="/LICENSE" target="_blank">license</a>.</p></div></div>}
+function ShopItemModal({item,onClose,onAddToCart,onSelectFilm}){
+ const [qty,setQty]=useState(1);
+ return <Modal title="Cultural Artifact & Cinema Art" onClose={onClose} wide>
+  <div className="item-modal-grid">
+   <div className="item-modal-gallery">
+    <img src={item.image} alt={item.title}/>
+   </div>
+   <div className="item-modal-details">
+    <span className="eyebrow">{item.categoryLabel} {item.badge&&`· ${item.badge}`}</span>
+    <h2>{item.title}</h2>
+    <div className="shop-card-price" style={{fontSize:'22px',marginBottom:'14px'}}>${item.price.toFixed(2)}</div>
+    <p className="overview">{item.description}</p>
+    <div className="item-artist-card">
+     <strong>Created by {item.artist}</strong>
+     <span>Based in {item.artistLocation}</span>
+     <p>{item.artistBio}</p>
+    </div>
+    {item.connectedFilm&&<div style={{margin:'14px 0'}}>
+     <button className="tag thread" onClick={()=>{onClose();onSelectFilm({theme:item.connectedFilm})}}>
+      <Sparkle size={12}/> Inspired by {item.connectedFilm} <ArrowUpRight size={12}/>
+     </button>
+    </div>}
+    <ul className="item-specs-list">
+     {item.specs?.map((s,i)=><li key={i}>{s}</li>)}
+    </ul>
+    <div style={{display:'flex',gap:'14px',alignItems:'center',marginTop:'20px'}}>
+     <div className="qty-stepper">
+      <button onClick={()=>setQty(q=>Math.max(1,q-1))}>-</button>
+      <span>{qty}</span>
+      <button onClick={()=>setQty(q=>q+1)}>+</button>
+     </div>
+     <button className="solid" style={{flex:1}} onClick={()=>{onAddToCart(item,qty);onClose();}}>
+      <ShoppingBag size={16}/> Add to Bag · ${(item.price*qty).toFixed(2)}
+     </button>
+    </div>
+    <div className="fund-callout" style={{marginTop:'16px'}}>
+     <strong>✦ The Atlas Promise:</strong> 15% of this purchase directly funds the Black Independent Filmmakers & Archivists Preservation Fund.
+    </div>
+   </div>
+  </div>
+ </Modal>;
+}
+function CartDrawer({open,onClose,cart,updateQuantity,removeFromCart,onCheckout}){
+ const subtotal=cart.reduce((sum,i)=>sum+i.item.price*i.quantity,0);
+ const freeThreshold=75;
+ const shipping=subtotal>=freeThreshold||subtotal===0?0:6.00;
+ const filmmakerFund=subtotal*0.15;
+ const total=subtotal+shipping;
+ return <Modal title={`Your Cinema Bag (${cart.reduce((s,i)=>s+i.quantity,0)})`} onClose={onClose}>
+  <div className="cart-drawer">
+   {subtotal>0&&<div style={{marginBottom:'10px'}}>
+    <div style={{display:'flex',justifyContent:'space-between',fontSize:'10px',color:'#c0cbb1'}}>
+     <span>{subtotal>=freeThreshold?'✦ Free domestic shipping unlocked!':`Add $${(freeThreshold-subtotal).toFixed(2)} more for free shipping`}</span>
+     <span>{Math.min(100,Math.round((subtotal/freeThreshold)*100))}%</span>
+    </div>
+    <div className="shipping-meter">
+     <div className="shipping-progress" style={{width:`${Math.min(100,(subtotal/freeThreshold)*100)}%`}}/>
+    </div>
+   </div>}
+   {!cart.length?<div className="empty-state" style={{minHeight:'240px',padding:'20px'}}>
+    <ShoppingBag size={36} strokeWidth={1.2}/>
+    <h2>Your bag is empty.</h2>
+    <p>Explore archival silkscreens, tees, vinyl, and field guides honoring Black cinema.</p>
+    <button className="outline" onClick={onClose}>Discover artifacts</button>
+   </div>:<div className="cart-items">
+    {cart.map(line=><div className="cart-item" key={line.item.id}>
+     <img src={line.item.image} alt={line.item.title}/>
+     <div className="cart-item-info">
+      <strong>{line.item.title}</strong>
+      <small>by {line.item.artist}</small>
+      <div className="cart-item-price">${(line.item.price*line.quantity).toFixed(2)}</div>
+     </div>
+     <div className="qty-stepper">
+      <button onClick={()=>updateQuantity(line.item.id,-1)}>-</button>
+      <span>{line.quantity}</span>
+      <button onClick={()=>updateQuantity(line.item.id,1)}>+</button>
+     </div>
+     <button className="icon-button" onClick={()=>removeFromCart(line.item.id)} title="Remove item">
+      <Trash2 size={15}/>
+     </button>
+    </div>)}
+   </div>}
+   {cart.length>0&&<div className="cart-summary">
+    <div className="summary-row"><span>Artifact Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
+    <div className="summary-row"><span>Estimated Shipping</span><span>{shipping===0?'FREE':`$${shipping.toFixed(2)}`}</span></div>
+    <div className="summary-row" style={{color:'#d5bb7e'}}><span>15% to Black Filmmakers Fund</span><span>${filmmakerFund.toFixed(2)}</span></div>
+    <div className="summary-row total"><span>Total</span><span>${total.toFixed(2)}</span></div>
+    <button className="solid full" style={{marginTop:'14px'}} onClick={onCheckout}>
+     <CreditCard size={16}/> Proceed to Checkout · ${total.toFixed(2)}
+    </button>
+   </div>}
+  </div>
+ </Modal>;
+}
+function CheckoutModal({open,onClose,cart,clearCart}){
+ const [step,setStep]=useState('form');
+ const [formData,setFormData]=useState({name:'Jordan Jenkins',email:'jordan@example.com',address:'135 Fulton Street, Apt 4B',city:'Brooklyn',state:'NY',zip:'11201'});
+ const subtotal=cart.reduce((sum,i)=>sum+i.item.price*i.quantity,0);
+ const total=subtotal+(subtotal>=75?0:6);
+ const orderNum=useMemo(()=>`#BCA-${Math.floor(100000+Math.random()*900000)}`,[]);
+ return <Modal title={step==='confirmed'?'Order Confirmation':'Secure Checkout'} onClose={onClose}>
+  {step==='form'?<div className="checkout-form">
+   <div className="eyebrow">SHIPPING & CONTACT DETAILS</div>
+   <label>Full Name
+    <input value={formData.name} onChange={e=>setFormData({...formData,name:e.target.value})}/>
+   </label>
+   <label>Email Address (for order receipt & tracking)
+    <input type="email" value={formData.email} onChange={e=>setFormData({...formData,email:e.target.value})}/>
+   </label>
+   <label>Street Address
+    <input value={formData.address} onChange={e=>setFormData({...formData,address:e.target.value})}/>
+   </label>
+   <div style={{display:'grid',gridTemplateColumns:'2fr 1fr 1fr',gap:'10px'}}>
+    <label>City<input value={formData.city} onChange={e=>setFormData({...formData,city:e.target.value})}/></label>
+    <label>State<input value={formData.state} onChange={e=>setFormData({...formData,state:e.target.value})}/></label>
+    <label>ZIP<input value={formData.zip} onChange={e=>setFormData({...formData,zip:e.target.value})}/></label>
+   </div>
+   <div className="fund-callout" style={{margin:'8px 0'}}>
+    <Truck size={14}/> Carbon-neutral courier delivery within 3–5 business days. Includes certificate of authenticity for fine prints.
+   </div>
+   <button className="solid full" style={{marginTop:'10px'}} onClick={()=>{setStep('confirmed');clearCart();}}>
+    <Check size={16}/> Complete Order · ${total.toFixed(2)}
+   </button>
+  </div>:<div className="order-success" style={{padding:'30px',textAlign:'center'}}>
+   <div style={{width:'56px',height:'56px',borderRadius:'50%',background:'#2e3b23',color:'var(--accent)',display:'grid',placeItems:'center',margin:'0 auto 16px',border:'1px solid var(--accent)'}}>
+    <Check size={28}/>
+   </div>
+   <span className="eyebrow">ORDER CONFIRMED</span>
+   <h2 style={{fontSize:'34px',margin:'8px 0'}}>{orderNum}</h2>
+   <p style={{fontSize:'13px',color:'#c0cbb1',maxWidth:'360px',margin:'0 auto 20px',lineHeight:'1.7'}}>
+    Thank you, {formData.name}. We’ve received your order and sent your confirmation and tracking details to <strong>{formData.email}</strong>.
+   </p>
+   <div className="fund-callout" style={{textAlign:'left',maxWidth:'400px',margin:'0 auto 24px'}}>
+    <strong>✦ Cultural Preservation Impact:</strong> ${(total*0.15).toFixed(2)} of your purchase has been earmarked for the Black Independent Filmmakers & Archivists Fund.
+   </div>
+   <button className="solid" onClick={onClose}>
+    Back to the Atlas
+   </button>
+  </div>}
+ </Modal>;
+}
+function Shop({onSelectFilm,onAddToCart}){
+ const [items,setItems]=useState([]);
+ const [categories,setCategories]=useState([]);
+ const [activeCategory,setActiveCategory]=useState('all');
+ const [searchQuery,setSearchQuery]=useState('');
+ const [selectedItem,setSelectedItem]=useState(null);
+ const [loading,setLoading]=useState(true);
+ const [error,setError]=useState('');
+ useEffect(()=>{
+  setLoading(true);
+  const p=new URLSearchParams();
+  if(activeCategory!=='all')p.set('category',activeCategory);
+  if(searchQuery)p.set('q',searchQuery);
+  api('/api/shop?'+p).then(d=>{
+   setItems(d.items);
+   setCategories(d.categories);
+   setError('');
+  }).catch(e=>setError(e.message)).finally(()=>setLoading(false));
+ },[activeCategory,searchQuery]);
+ return <div className="shop-page">
+  <div className="shop-hero">
+   <span className="eyebrow">THE ART OF BLACK CINEMA · CURATED CULTURAL SHOP</span>
+   <h1>Wear the legacy.<br/>Frame the story.</h1>
+   <p className="subheading">
+    Museum-grade fine art prints, archival cinema silkscreens, auteur apparel, vinyl soundtracks, and field guides. 15% of all proceeds directly fund emerging Black independent filmmakers & archival film preservation.
+   </p>
+   <div className="shop-trust">
+    <span><Sparkle size={13}/> Ethically Crafted & Archival Quality</span>
+    <span><ShieldCheck size={13}/> 15% to Black Indie Filmmaker Fund</span>
+    <span><Truck size={13}/> Free Domestic Shipping over $75</span>
+   </div>
+  </div>
+  <div className="shop-toolbar">
+   <div className="shop-pills">
+    {categories.map(c=><button key={c.id} className={activeCategory===c.id?'active':''} onClick={()=>setActiveCategory(c.id)}>
+     {c.label}
+    </button>)}
+   </div>
+   <div className="shop-search">
+    <Search size={15} color="var(--muted)"/>
+    <input placeholder="Search prints, tees, artists..." value={searchQuery} onChange={e=>setSearchQuery(e.target.value)}/>
+    {searchQuery&&<button onClick={()=>setSearchQuery('')}><X size={12}/></button>}
+   </div>
+  </div>
+  {error&&<p className="error" role="alert">{error}</p>}
+  {loading?<div className="empty-state"><span className="spinner"/><h2>Gathering artifacts…</h2></div>:!items.length?<div className="empty-state">
+   <ShoppingBag size={32}/>
+   <h2>No artifacts found.</h2>
+   <p>Try clearing your search or exploring another category.</p>
+   <button className="outline" onClick={()=>{setActiveCategory('all');setSearchQuery('');}}>Reset shop filters</button>
+  </div>:<div className="shop-grid">
+   {items.map(item=><div className="shop-card" key={item.id}>
+    <div className="shop-card-media" onClick={()=>setSelectedItem(item)}>
+     <img src={item.image} alt={item.title} loading="lazy"/>
+     {item.badge&&<span className="shop-card-badge">{item.badge}</span>}
+    </div>
+    <div className="shop-card-body">
+     <span className="shop-card-artist">by {item.artist} · {item.artistLocation}</span>
+     <h3 className="shop-card-title" onClick={()=>setSelectedItem(item)} style={{cursor:'pointer'}}>{item.title}</h3>
+     <p className="shop-card-desc">{item.shortDescription}</p>
+     {item.connectedFilm&&<div style={{marginBottom:'10px'}}>
+      <button className="tag thread" onClick={()=>onSelectFilm({theme:item.connectedFilm})} title="Explore connected film">
+       <Sparkle size={11}/> {item.connectedFilm}
+      </button>
+     </div>}
+     <div className="shop-card-footer">
+      <span className="shop-card-price">${item.price.toFixed(2)}</span>
+      <div className="shop-card-actions">
+       <button className="outline" onClick={()=>setSelectedItem(item)}>Details</button>
+       <button className="solid" onClick={()=>onAddToCart(item,1)}><ShoppingBag size={13}/> Add</button>
+      </div>
+     </div>
+    </div>
+   </div>)}
+  </div>}
+  {selectedItem&&<ShopItemModal item={selectedItem} onClose={()=>setSelectedItem(null)} onAddToCart={onAddToCart} onSelectFilm={onSelectFilm}/>}
+ </div>;
+}
 function App(){
- const [view,setView]=useState(location.pathname.startsWith('/night/')?'night':location.pathname==='/about'?'about':'explore'),[mode,setMode]=useState(matchMedia('(prefers-reduced-motion: reduce)').matches?'posters':'atlas'),[cluster,setCluster]=useState('decade'),[films,setFilms]=useState([]),[facets,setFacets]=useState({}),[filters,setFilters]=useState({q:'',decade:'',genre:'',theme:'',city:'',person:''}),[profile,setProfile]=useState({liked_film_ids:[],watchlist:[],subscriptions:[],region:'US'}),[status,setStatus]=useState(null),[loading,setLoading]=useState(true),[error,setError]=useState(''),[selected,setSelected]=useState(null),[guideOpen,setGuideOpen]=useState(innerWidth>1100),[filtersOpen,setFiltersOpen]=useState(false),[prefsOpen,setPrefsOpen]=useState(false);const askRef=useRef(null);
- useEffect(()=>{const sync=()=>setView(location.pathname.startsWith('/night/')?'night':location.pathname==='/about'?'about':'explore');addEventListener('popstate',sync);return()=>removeEventListener('popstate',sync)},[]);
+ const [view,setView]=useState(location.pathname.startsWith('/night/')?'night':location.pathname==='/about'?'about':location.pathname==='/shop'?'shop':'explore');
+ const [mode,setMode]=useState(matchMedia('(prefers-reduced-motion: reduce)').matches?'posters':'atlas'),[cluster,setCluster]=useState('decade'),[films,setFilms]=useState([]),[facets,setFacets]=useState({}),[filters,setFilters]=useState({q:'',decade:'',genre:'',theme:'',city:'',person:''}),[profile,setProfile]=useState({liked_film_ids:[],watchlist:[],subscriptions:[],region:'US'}),[status,setStatus]=useState(null),[loading,setLoading]=useState(true),[error,setError]=useState(''),[selected,setSelected]=useState(null),[guideOpen,setGuideOpen]=useState(innerWidth>1100),[filtersOpen,setFiltersOpen]=useState(false),[prefsOpen,setPrefsOpen]=useState(false);const askRef=useRef(null);
+ const [cart,setCart]=useState(()=>{try{const s=localStorage.getItem('atlas_cart');return s?JSON.parse(s):[]}catch{return[]}});
+ const [cartOpen,setCartOpen]=useState(false);
+ const [checkoutOpen,setCheckoutOpen]=useState(false);
+ const [toastMsg,setToastMsg]=useState('');
+ useEffect(()=>{try{localStorage.setItem('atlas_cart',JSON.stringify(cart))}catch{}},[cart]);
+ const addToCart=(item,qty=1)=>{setCart(prev=>{const ex=prev.find(i=>i.item.id===item.id);if(ex)return prev.map(i=>i.item.id===item.id?{...i,quantity:i.quantity+qty}:i);return [...prev,{item,quantity:qty}]});setToastMsg(`Added "${item.title}" to bag`);setTimeout(()=>setToastMsg(''),3000);};
+ const updateQuantity=(id,delta)=>setCart(prev=>prev.map(i=>{if(i.item.id===id){const n=i.quantity+delta;return n>0?{...i,quantity:n}:null}return i}).filter(Boolean));
+ const removeFromCart=id=>setCart(prev=>prev.filter(i=>i.item.id!==id));
+ const cartCount=cart.reduce((s,i)=>s+i.quantity,0);
+ useEffect(()=>{const sync=()=>setView(location.pathname.startsWith('/night/')?'night':location.pathname==='/about'?'about':location.pathname==='/shop'?'shop':'explore');addEventListener('popstate',sync);return()=>removeEventListener('popstate',sync)},[]);
  useEffect(()=>{api('/api/profile').then(setProfile).catch(e=>setError(e.message));api('/api/status').then(setStatus).catch(()=>{})},[]);
  useEffect(()=>{const ctl=new AbortController(),timer=setTimeout(()=>{setLoading(true);const p=new URLSearchParams(Object.entries({...filters,cluster}).filter(([,v])=>v));api('/api/films?'+p,{signal:ctl.signal}).then(d=>{setFilms(d.films);setFacets(d.facets);setError('')}).catch(e=>{if(e.name!=='AbortError')setError(e.message)}).finally(()=>{if(!ctl.signal.aborted)setLoading(false)})},filters.q?250:0);return()=>{clearTimeout(timer);ctl.abort()}},[filters,cluster]);
  async function updateProfile(next){try{const saved=await api('/api/profile',{method:'PUT',body:JSON.stringify(next)});setProfile(saved)}catch(e){setError(e.message)}}
@@ -49,7 +278,7 @@ function App(){
  const select=f=>{if(f.person||f.theme){setFilters({q:'',decade:'',genre:'',theme:f.theme??'',city:'',person:f.person??''});setView('explore');setMode('posters');return}setSelected(f)};
  const activeCount=Object.entries(filters).filter(([k,v])=>k!=='q'&&v).length;
  const visible=useMemo(()=>view==='watchlist'?films.filter(f=>profile.watchlist.includes(f.id)):films,[view,films,profile.watchlist]);
- const navigate=v=>{setView(v);const path=v==='about'?'/about':'/';if(location.pathname!==path)history.pushState({},'',path);if(v==='watchlist')setFilters({q:'',decade:'',genre:'',theme:'',city:'',person:''})};
- return <><header className="site-header"><button className="brand" onClick={()=>navigate('explore')} aria-label="Black Cinema Atlas home"><span className="brand-mark"><Globe2 size={29} strokeWidth={1}/></span><span>BLACK CINEMA<strong>ATLAS<span className="brand-star">✦</span></strong></span></button><nav aria-label="Main navigation"><button className={view==='explore'?'active':''} onClick={()=>navigate('explore')}>Explore</button><button className={view==='night'?'active':''} onClick={()=>navigate('night')}>Movie night</button><button className={view==='watchlist'?'active':''} onClick={()=>navigate('watchlist')}>My watchlist <span>{profile.watchlist.length}</span></button><button className={view==='about'?'active':''} onClick={()=>navigate('about')}>Our story</button></nav><div className="header-actions"><button className="region-button" onClick={()=>setPrefsOpen(true)}><Globe2 size={14}/>{profile.region}<ChevronDown size={12}/></button><button className="guide-toggle" onClick={()=>setGuideOpen(v=>!v)}><Sparkles size={15}/><span>Ask the guide</span></button></div></header><div className={`app-layout ${guideOpen?'with-guide':''}`}><main id="main-content">{['explore','watchlist'].includes(view)&&<><section className="explore-heading"><div><p className="eyebrow">PEOPLE. PLACES. PERSPECTIVES.</p><h1>{view==='watchlist'?'Your next great watch.':'Every story connects.'}</h1><p className="subheading">{view==='watchlist'?'The films you’re saving a little time for.':'Explore a universe of Black cinema. Find your way to a new favorite.'}</p></div><span className="collection-count"><strong>{visible.length.toString().padStart(2,'0')}</strong><small>FILMS TO EXPLORE</small></span></section><section className="explorer-toolbar" aria-label="Film search and filters"><div className="search-box"><Search size={17}/><input placeholder="A film, a filmmaker, a feeling…" aria-label="Search films, people and themes" value={filters.q} onChange={e=>setFilters(f=>({...f,q:e.target.value}))}/>{filters.q&&<button onClick={()=>setFilters(f=>({...f,q:''}))} aria-label="Clear search"><X size={14}/></button>}</div><button className={`filter-toggle ${activeCount?'active':''}`} onClick={()=>setFiltersOpen(v=>!v)}><SlidersHorizontal size={16}/>Filters{activeCount>0&&<span>{activeCount}</span>}</button><div className="view-switch" aria-label="View mode"><button title="Voronoi atlas" aria-label="Atlas view" aria-pressed={mode==='atlas'} className={mode==='atlas'?'active':''} onClick={()=>setMode('atlas')}><Orbit size={17}/></button><button title="Poster wall" aria-label="Posters view" aria-pressed={mode==='posters'} className={mode==='posters'?'active':''} onClick={()=>setMode('posters')}><Grid2X2 size={17}/></button></div></section>{filtersOpen&&<div className="filter-panel">{[['decade','Decade','decades'],['genre','Genre','genres'],['theme','Theme','themes'],['city','Setting','cities']].map(([key,title,field])=><label key={key}>{title}<select value={filters[key]} onChange={e=>setFilters(f=>({...f,[key]:e.target.value}))}><option value="">All {title.toLowerCase()}s</option>{facets[field]?.map(v=><option key={v}>{v}</option>)}</select></label>)}<button className="text-button" onClick={()=>setFilters({q:'',decade:'',genre:'',theme:'',city:'',person:''})}>Reset filters</button></div>}<div className="collection-bar"><div className="collection-pills">{[['','All stories'],['Black love','Black love'],['Coming of age','Coming of age'],['Community','Community'],['Afrofuturism','Afrofuturism']].map(([val,text])=><button key={text} className={filters.theme===val?'active':''} onClick={()=>setFilters(f=>({...f,theme:val}))}>{text}</button>)}</div><label className="cluster-label">Connect by<select aria-label="Cluster films by" value={cluster} onChange={e=>setCluster(e.target.value)}><option value="decade">Decade</option><option value="director">Director</option><option value="theme">Theme</option></select></label></div>{error&&<p className="error global-error" role="alert">{error}</p>}<section className={`film-explorer ${mode==='atlas'&&view==='explore'?'atlas-mode':''}`} aria-label="Film collection">{loading?<div className="empty-state"><span className="spinner"/><h2>Opening the Atlas…</h2></div>:!visible.length?<div className="empty-state"><Bookmark size={30}/><h2>{view==='watchlist'?'Your watchlist starts here.':'No films on this path yet.'}</h2><p>{view==='watchlist'?'Save a film using the bookmark on its poster.':'Try another search or clear a filter.'}</p><button className="outline" onClick={()=>{navigate('explore');setFilters({q:'',decade:'',genre:'',theme:'',city:'',person:''})}}>Explore all films</button></div>:mode==='atlas'&&view==='explore'?<Suspense fallback={<div className="empty-state">Preparing the Atlas…</div>}><AtlasCanvas films={visible} onSelect={select} cluster={cluster} onFallback={()=>setMode('posters')}/></Suspense>:<div className="poster-grid">{visible.map(f=><FilmCard key={f.id} film={f} onSelect={select} saved={profile.watchlist.includes(f.id)} onSave={toggleSave}/>)}</div>}</section><footer className="explorer-footer"><span><span className="live-dot"/> A CURATED, EXPANDING COLLECTION</span><button onClick={()=>navigate('about')}>Made of stories. Connected by people.<ArrowUpRight size={12}/></button></footer></>}{view==='night'&&<MovieNight key={location.pathname} profile={profile} updateProfile={updateProfile} onSelect={select} onSave={toggleSave} ask={ask}/ >}{view==='about'&&<About status={status}/>}</main><Guide open={guideOpen} setOpen={setGuideOpen} askRef={askRef} onSelect={select} profile={profile} context={{filters,region:profile.region}}/></div>{selected&&<FilmDetail key={selected.id} film={selected} onClose={()=>setSelected(null)} onSelect={select} profile={profile} updateProfile={updateProfile} ask={ask} region={profile.region}/ >}{prefsOpen&&<Modal title="Your viewing preferences" onClose={()=>setPrefsOpen(false)}><div className="prefs-content"><h2>Where are you watching?</h2><label>Country<select value={profile.region} onChange={e=>updateProfile({...profile,region:e.target.value})}>{[['US','United States'],['GB','United Kingdom'],['CA','Canada'],['NG','Nigeria'],['ZA','South Africa'],['KE','Kenya'],['FR','France'],['AU','Australia'],['BR','Brazil']].map(([v,t])=><option key={v} value={v}>{t}</option>)}</select></label><h3>Your subscriptions</h3><div className="provider-chips">{providers.map(p=><button key={p} className={profile.subscriptions.includes(p)?'active':''} onClick={()=>updateProfile({...profile,subscriptions:profile.subscriptions.includes(p)?profile.subscriptions.filter(x=>x!==p):[...profile.subscriptions,p]})}>{p}</button>)}</div><p className="muted">The guide uses these preferences when you ask for a recommendation.</p>{!status?.signed_in&&<a className="outline" href="/signin-with-chatgpt?returnTo=%2F" target="_top">Sign in to keep preferences across devices<ArrowUpRight size={14}/></a>}<button className="solid full" onClick={()=>setPrefsOpen(false)}>Done<Check size={16}/></button></div></Modal>}</>
+ const navigate=v=>{setView(v);const path=v==='about'?'/about':v==='shop'?'/shop':'/';if(location.pathname!==path)history.pushState({},'',path);if(v==='watchlist')setFilters({q:'',decade:'',genre:'',theme:'',city:'',person:''})};
+ return <><header className="site-header"><button className="brand" onClick={()=>navigate('explore')} aria-label="Black Cinema Atlas home"><span className="brand-mark"><Globe2 size={29} strokeWidth={1}/></span><span>BLACK CINEMA<strong>ATLAS<span className="brand-star">✦</span></strong></span></button><nav aria-label="Main navigation"><button className={view==='explore'?'active':''} onClick={()=>navigate('explore')}>Explore</button><button className={view==='night'?'active':''} onClick={()=>navigate('night')}>Movie night</button><button className={view==='watchlist'?'active':''} onClick={()=>navigate('watchlist')}>My watchlist <span>{profile.watchlist.length}</span></button><button className={view==='shop'?'active':''} onClick={()=>navigate('shop')}>Art & Shop <span className="shop-badge">✦ New</span></button><button className={view==='about'?'active':''} onClick={()=>navigate('about')}>Our story</button></nav><div className="header-actions"><button className="bag-button" onClick={()=>setCartOpen(true)} aria-label="Shopping bag"><ShoppingBag size={15}/>{cartCount>0&&<span className="bag-count">{cartCount}</span>}<span>Bag</span></button><button className="region-button" onClick={()=>setPrefsOpen(true)}><Globe2 size={14}/>{profile.region}<ChevronDown size={12}/></button><button className="guide-toggle" onClick={()=>setGuideOpen(v=>!v)}><Sparkles size={15}/><span>Ask the guide</span></button></div></header><div className={`app-layout ${guideOpen?'with-guide':''}`}><main id="main-content">{['explore','watchlist'].includes(view)&&<><section className="explore-heading"><div><p className="eyebrow">PEOPLE. PLACES. PERSPECTIVES.</p><h1>{view==='watchlist'?'Your next great watch.':'Every story connects.'}</h1><p className="subheading">{view==='watchlist'?'The films you’re saving a little time for.':'Explore a universe of Black cinema. Find your way to a new favorite.'}</p></div><span className="collection-count"><strong>{visible.length.toString().padStart(2,'0')}</strong><small>FILMS TO EXPLORE</small></span></section><section className="explorer-toolbar" aria-label="Film search and filters"><div className="search-box"><Search size={17}/><input placeholder="A film, a filmmaker, a feeling…" aria-label="Search films, people and themes" value={filters.q} onChange={e=>setFilters(f=>({...f,q:e.target.value}))}/>{filters.q&&<button onClick={()=>setFilters(f=>({...f,q:''}))} aria-label="Clear search"><X size={14}/></button>}</div><button className={`filter-toggle ${activeCount?'active':''}`} onClick={()=>setFiltersOpen(v=>!v)}><SlidersHorizontal size={16}/>Filters{activeCount>0&&<span>{activeCount}</span>}</button><div className="view-switch" aria-label="View mode"><button title="Voronoi atlas" aria-label="Atlas view" aria-pressed={mode==='atlas'} className={mode==='atlas'?'active':''} onClick={()=>setMode('atlas')}><Orbit size={17}/></button><button title="Poster wall" aria-label="Posters view" aria-pressed={mode==='posters'} className={mode==='posters'?'active':''} onClick={()=>setMode('posters')}><Grid2X2 size={17}/></button></div></section>{filtersOpen&&<div className="filter-panel">{[['decade','Decade','decades'],['genre','Genre','genres'],['theme','Theme','themes'],['city','Setting','cities']].map(([key,title,field])=><label key={key}>{title}<select value={filters[key]} onChange={e=>setFilters(f=>({...f,[key]:e.target.value}))}><option value="">All {title.toLowerCase()}s</option>{facets[field]?.map(v=><option key={v}>{v}</option>)}</select></label>)}<button className="text-button" onClick={()=>setFilters({q:'',decade:'',genre:'',theme:'',city:'',person:''})}>Reset filters</button></div>}<div className="collection-bar"><div className="collection-pills">{[['','All stories'],['Black love','Black love'],['Coming of age','Coming of age'],['Community','Community'],['Afrofuturism','Afrofuturism']].map(([val,text])=><button key={text} className={filters.theme===val?'active':''} onClick={()=>setFilters(f=>({...f,theme:val}))}>{text}</button>)}</div><label className="cluster-label">Connect by<select aria-label="Cluster films by" value={cluster} onChange={e=>setCluster(e.target.value)}><option value="decade">Decade</option><option value="director">Director</option><option value="theme">Theme</option></select></label></div>{error&&<p className="error global-error" role="alert">{error}</p>}<section className={`film-explorer ${mode==='atlas'&&view==='explore'?'atlas-mode':''}`} aria-label="Film collection">{loading?<div className="empty-state"><span className="spinner"/><h2>Opening the Atlas…</h2></div>:!visible.length?<div className="empty-state"><Bookmark size={30}/><h2>{view==='watchlist'?'Your watchlist starts here.':'No films on this path yet.'}</h2><p>{view==='watchlist'?'Save a film using the bookmark on its poster.':'Try another search or clear a filter.'}</p><button className="outline" onClick={()=>{navigate('explore');setFilters({q:'',decade:'',genre:'',theme:'',city:'',person:''})}}>Explore all films</button></div>:mode==='atlas'&&view==='explore'?<Suspense fallback={<div className="empty-state">Preparing the Atlas…</div>}><AtlasCanvas films={visible} onSelect={select} cluster={cluster} onFallback={()=>setMode('posters')}/></Suspense>:<div className="poster-grid">{visible.map(f=><FilmCard key={f.id} film={f} onSelect={select} saved={profile.watchlist.includes(f.id)} onSave={toggleSave}/>)}</div>}</section><footer className="explorer-footer"><span><span className="live-dot"/> A CURATED, EXPANDING COLLECTION</span><button onClick={()=>navigate('about')}>Made of stories. Connected by people.<ArrowUpRight size={12}/></button></footer></>}{view==='shop'&&<Shop onSelectFilm={select} onAddToCart={addToCart}/>}{view==='night'&&<MovieNight key={location.pathname} profile={profile} updateProfile={updateProfile} onSelect={select} onSave={toggleSave} ask={ask}/>}{view==='about'&&<About status={status}/>}</main><Guide open={guideOpen} setOpen={setGuideOpen} askRef={askRef} onSelect={select} profile={profile} context={{filters,region:profile.region}}/></div>{selected&&<FilmDetail key={selected.id} film={selected} onClose={()=>setSelected(null)} onSelect={select} profile={profile} updateProfile={updateProfile} ask={ask} region={profile.region}/>}{prefsOpen&&<Modal title="Your viewing preferences" onClose={()=>setPrefsOpen(false)}><div className="prefs-content"><h2>Where are you watching?</h2><label>Country<select value={profile.region} onChange={e=>updateProfile({...profile,region:e.target.value})}>{[['US','United States'],['GB','United Kingdom'],['CA','Canada'],['NG','Nigeria'],['ZA','South Africa'],['KE','Kenya'],['FR','France'],['AU','Australia'],['BR','Brazil']].map(([v,t])=><option key={v} value={v}>{t}</option>)}</select></label><h3>Your subscriptions</h3><div className="provider-chips">{providers.map(p=><button key={p} className={profile.subscriptions.includes(p)?'active':''} onClick={()=>updateProfile({...profile,subscriptions:profile.subscriptions.includes(p)?profile.subscriptions.filter(x=>x!==p):[...profile.subscriptions,p]})}>{p}</button>)}</div><p className="muted">The guide uses these preferences when you ask for a recommendation.</p>{!status?.signed_in&&<a className="outline" href="/signin-with-chatgpt?returnTo=%2F" target="_top">Sign in to keep preferences across devices<ArrowUpRight size={14}/></a>}<button className="solid full" onClick={()=>setPrefsOpen(false)}>Done<Check size={16}/></button></div></Modal>}{cartOpen&&<CartDrawer open={cartOpen} onClose={()=>setCartOpen(false)} cart={cart} updateQuantity={updateQuantity} removeFromCart={removeFromCart} onCheckout={()=>{setCartOpen(false);setCheckoutOpen(true);}}/>}{checkoutOpen&&<CheckoutModal open={checkoutOpen} onClose={()=>setCheckoutOpen(false)} cart={cart} clearCart={()=>setCart([])}/>}{toastMsg&&<div className="shop-toast"><Sparkles size={16}/>{toastMsg}</div>}</>;
 }
 const root=import.meta.hot?.data.root??createRoot(document.getElementById('root'));if(import.meta.hot)import.meta.hot.data.root=root;root.render(<App/>);
