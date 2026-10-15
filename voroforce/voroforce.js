@@ -214,7 +214,7 @@ export class Voroforce extends CustomEventTarget {
 
     // setTimeout drift detection
     let last = performance.now()
-    setInterval(() => {
+    this.driftInterval = setInterval(() => {
       const now = performance.now()
       const diff = now - last
       last = now
@@ -373,6 +373,8 @@ export class Voroforce extends CustomEventTarget {
 
   // TODO
   dispose() {
+    clearInterval(this.driftInterval)
+    clearTimeout(this.tickerFreezeTimeout)
     this.removeEventListeners()
     this.disposeDevTools()
     this.simulation.dispose()

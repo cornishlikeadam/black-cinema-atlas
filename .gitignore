@@ -35,3 +35,7 @@ public/tmp.webm
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+.wrangler/
+.sites-runtime/
+atlas/generated-assets.mjs
+work/

@@ -36,6 +36,8 @@ export default class Display {
   handleRendererCompatibility() {
     const media = this.globalConfig.media
     if (!media?.enabled) return
+    // Runtime poster sheets use standard RGBA textures, available in WebGL2.
+    if (media.compressionFormat === 'rgba') return
 
     const compressionFormats = {
       dds: 'WEBGL_compressed_texture_s3tc',

@@ -4,7 +4,9 @@ export class CompressedMediaGridArrayTexture extends Texture {
   constructor(gl, args) {
     let ext
     let internalFormat
-    if (args.compressionFormat === 'etc') {
+    if (args.compressionFormat === 'rgba') {
+      internalFormat = gl.RGBA8
+    } else if (args.compressionFormat === 'etc') {
       // ext = gl.getExtension('WEBGL_compressed_texture_etc1')
       ext = gl.getExtension('WEBGL_compressed_texture_etc')
       if (!ext) {
@@ -149,6 +151,11 @@ export class CompressedMediaGridArrayTexture extends Texture {
     }
 
     this.pendingLayerUpdates.forEach(({ index, bytes }) => {
+      if (this.internalFormat === this.gl.RGBA8) {
+        this.gl.texSubImage3D(this.gl.TEXTURE_2D_ARRAY, 0, 0, 0, index,
+          this.width, this.height, 1, this.gl.RGBA, this.gl.UNSIGNED_BYTE, bytes)
+        return
+      }
       this.gl.compressedTexSubImage3D(
         this.gl.TEXTURE_2D_ARRAY,
         0,

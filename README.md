@@ -1,290 +1,62 @@
-# There's nothing to watch...
+# Black Cinema Atlas
 
-The silver screen's heyday is arguably behind us. Luckily, we have
-over a hundred years of cinema to fall back on.
+A Black cinema explorer built from [gnovotny/nothing-to-watch](https://github.com/gnovotny/nothing-to-watch). Discover films through cast, filmmakers, decades, themes and settings, then ask a movie guide for grounded suggestions.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Creative Commons License](https://img.shields.io/badge/License-CC%20BY--NC--SA%203.0-lightgrey.svg)
-![ODC Attribution License](https://img.shields.io/badge/License-ODC%20By-brightgreen.svg)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)
-![React](https://img.shields.io/badge/React-19.1-blue.svg)
-![WebGL](https://img.shields.io/badge/WebGL-enabled-green.svg)
+## Current build
 
-## 🎬 Overview
-An experimental WebGL gallery that visualizes tens of thousands of film posters in an interactive force-directed voronoi diagram.
+- Original Voroforce/WebGL poster universe, adapted to generate poster sheets from live API results; accessible still poster wall and search/filter controls.
+- Curated starter catalog of 95 films, with TMDB credits, posters, trailers and country-specific JustWatch provider listings refreshed through a server cache.
+- Graph relationships and explainable recommendations shared by the explorer and Gemini tool-calling guide.
+- Server-persisted watchlists, likes, viewing preferences and chat history. Guests use a private session cookie; Sites sign-in supports account preferences across devices.
+- Movie-night shortlists, shareable group links, and one vote per browser/account.
+- Twilio webhook with signature verification, duplicate protection, asynchronous replies, HELP/STOP handling, and rate limits. **SMS activation is pending account/number configuration and end-to-end verification.**
 
-### Key Features
+This is an expanding editorial collection, not a comprehensive catalog or an automated ethnicity classifier. Themes and settings are editorial tags. Credits and film metadata come from TMDB. Subscription recommendations only claim matches when the provider has been checked for the selected country.
 
-- **Interactive WebGL Visualization**: Real-time rendering of tens of thousands of film posters
-- **Custom Voroforce Engine**: Purpose-built force simulation and rendering system with multi-threading support
-- **Responsive Design**: Adapts to desktop, tablet, and mobile devices
-- **Performance Optimized**: GPU-accelerated rendering with efficient memory management
-- **Film Discovery**: Explore movies through visual relationships and clustering
-- **Multiple View Modes**: Intro, selection, and preview modes for different user experiences
+## Run locally
 
-## 🚀 Quick Start
+Use Node 24 or later (the preview uses built-in SQLite):
 
-### Prerequisites
-
-- **Bun** (recommended) or Node.js 18+ with a package manager of your choice (npm, yarn, pnpm, etc.)
-- Modern browser with WebGL 2.0 support
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone git@github.com:gnovotny/nothing-to-watch.git
-   cd nothing-to-watch
-   ```
-
-2. **Set up environment variables**
-   ```bash
-   cp .env.local.example .env.local
-   ```
-
-3. **Install dependencies**
-   ```bash
-   bun install
-   ```
-
-4. **Start development server**
-   ```bash
-   bun dev
-   ```
-
-5. **Open your browser**
-   Navigate to `http://localhost:3000`
-
-## 🛠 Development
-
-### Available Scripts
-
-| Command | Description |
-|---------|-------------|
-| `bun dev` | Start development server on port 3000 |
-| `bun build` | Build for production with TypeScript compilation |
-| `bun preview` | Preview production build |
-| `bun lint` | Lint code with Biome |
-| `bun format` | Format code with Biome |
-| `bun check` | Run comprehensive Biome checks |
-| `bun check:write` | Auto-fix Biome issues |
-| `bun analyze` | Build with bundle analysis |
-
-### Testing Commands
-
-| Command | Description |
-|---------|-------------|
-| `bun run test` | Run unit tests with Vitest |
-| `bun test:unit:coverage` | Run unit tests with coverage |
-| `bun test:e2e` | Run end-to-end tests with Playwright |
-| `bun test:e2e:headed` | Run E2E tests in headed mode |
-| `bun test:e2e:ui` | Run E2E tests with Playwright UI |
-
-## 🏗 Architecture
-
-### Stack
-
-- **React 19** with TypeScript and Vite
-- **Tailwind CSS** with Radix UI components (Shadcn)
-- **Zustand** for state management
-
-### Engine (Voroforce)
-
-- Custom vanilla JS force simulation and rendering engine
-- **OGL** - Lightweight WebGL library for 3D rendering
-- **GLSL shaders**
-- **Multi-threaded** simulation support
-
-### Project Structure
-
-```
-├── app/                    # React application
-│   ├── main.tsx           # Entry point
-│   ├── app.tsx            # Main App component
-│   ├── store/             # Zustand store and slices
-│   ├── cmps/              # React components
-│   │   ├── common/        # Shared components
-│   │   ├── ui/            # Radix UI components
-│   │   └── views/         # Main view components
-│   ├── vf/                # Voroforce integration layer
-│   └── utils/             # Utility functions
-├── voroforce/             # Standalone WebGL engine
-│   ├── simulation/        # Force simulation logic
-│   ├── display/           # Rendering system
-│   ├── controls/          # User interaction handling
-│   └── utils/             # Engine utilities
-└── public/                # Static assets
-    ├── json/              # Film data files
-    └── media/             # Film poster images
+```sh
+npm ci
+cp .env.example .env.local
+# Fill the private credentials in .env.local.
+npm run dev
 ```
 
-### Data Flow
+Open http://127.0.0.1:3000. The local SQLite database lives in ignored `work/`. This development server is not the production hosting arrangement.
 
-1. **Film Data Loading**: JSON files loaded from `public/json/`
-2. **Film Image Serving**: Multi-resolution variants from `public/media/`
-3. **Voroforce Processing**: Data processed into engine
-4. **React Integration**: Components interact through Zustand store
-5. **Mode Management**: User interactions trigger mode changes (intro/select/preview)
-
-## 🎯 Core Components
-
-### Voroforce Engine
-
-The heart of the application is the custom Voroforce engine:
-
-- **Simulation**: Force directed graph with multiple force types
-- **Rendering**: WebGL-based poster rendering with efficient batching
-- **Controls**: Mouse/touch/keyboard interaction with zoom, pan, and selection
-- **Performance**: Multi-threaded simulation with GPU optimization
-
-### State Management
-
-Zustand store organized into slices:
-
-- **UI Slice**: Interface state, modals, settings
-- **Voroforce Slice**: Engine integration and control
-- **Film Data Slice**: Film data management and loading
-
-### React Component Architecture
-
-- **Layout Components**: Navigation, modals, responsive containers
-- **UI Components**: Radix-based design system components
-- **View Components**: Main application views and screens
-
-## 🔧 Configuration
-
-### Environment Variables
-
-Create `.env.local` for local development:
-
-```bash
-VITE_TEXTURES_BASE_URL=/media
-VITE_FILM_INFO_BASE_URL=/json
-VITE_MEDIA_VERSION_0_LAYERS=1
-VITE_MEDIA_VERSION_1_LAYERS=1
-VITE_MEDIA_VERSION_2_LAYERS=1
-VITE_EXPERIMENTAL_MEDIA_VERSION_3_ENABLED=1
+```sh
+npm test
+npm run build
 ```
 
-### Performance Tuning
+The build emits a cloud Worker at `dist/server/index.js`, embeds frontend assets, and includes the schema migrations. Production uses hosted D1 storage and server-side Gemini/TMDB requests; it requires no running user computer. Sites identity and source configuration are in `.openai/hosting.json`. Runtime secrets must be configured in the hosting environment separately; no secret belongs in that manifest or the browser bundle.
 
-The application includes several performance optimization features:
+## Configuration
 
-- **Device Detection**: Recommended presets and settings based on device capabilities
-- **Memory Management**: Efficient WebGL resource handling
-- **Batch Loading**: Chunked film data & media loading
-- **Image Variants**: Multiple resolution options for different scaling levels
+See [.env.example](.env.example) for names only. Use either TMDB's read access token or API key, plus a Gemini API key. The guide defaults to `gemini-2.5-flash`. Free-tier availability and quota depend on the provider; app caps default to 200 chat turns/day globally, 8/minute, and 40/user/day (20/SMS user/day). Each turn can make several tool/model calls, so provider quota can be reached earlier. No paid fallback is enabled.
 
-## 🧪 Testing
+SMS needs a messaging-capable Twilio number, account SID, auth token, public HTTPS origin, and `SMS_ENABLED=true`. Set the number's inbound messaging webhook to `POST https://<public-origin>/api/sms`. Keep SMS disabled until the account is eligible and the number/webhook are verified. Trial restrictions and carrier registration can prevent public use. Web and SMS histories are separate.
 
-### Unit Tests
+## API
 
-Uses **Vitest** with **@testing-library/react**:
+- `GET /api/status`, `/api/films`, `/api/films/:id`, `/api/films/:id/connections`
+- `GET/PUT /api/profile`; `GET/DELETE /api/history`
+- `POST /api/chat`, `/api/recommend`
+- `POST /api/groups`; `GET /api/groups/:id`; `POST /api/groups/:id/vote`
+- `POST /api/sms` (Twilio-signed requests only)
 
-```bash
-bun test:unit          # Run unit tests
-bun test:unit:coverage # With coverage report
-```
+Film filters include `q`, `decade`, `genre`, `theme`, `city`, `person`, `max_runtime`, `cluster`, `limit`, and `offset`. The app exposes its curated collection; it does not blindly classify TMDB's entire catalog as Black cinema.
 
-### End-to-End Tests
+## Data and source
 
-Uses **Playwright** for E2E testing:
+`atlas/data/editorial.json` records the collection's themes/settings. `scripts/import-atlas.py` refreshes the starter data using a private TMDB credential. `atlas/graph.mjs` builds graph relationships; `atlas/service.mjs` implements the hosted API and agent tools. `db/schema.ts` and `drizzle/` own persistent storage. Append new migrations after the initial migration has been deployed.
 
-```bash
-bun test:e2e           # Run E2E tests
-bun test:e2e:headed    # With visible browser
-bun test:e2e:ui        # With Playwright UI
-```
+See [docs/HANDOFF.md](docs/HANDOFF.md) for verified progress, pending activation, and the next steps. See [docs/REA-FINDINGS.md](docs/REA-FINDINGS.md) for shipped-reference observations and the unsuccessful REA tool attempts; no REA Evidence ID was obtained.
 
-### Code Quality
+## Attribution
 
-- **Biome**: Linting and formatting
-- **TypeScript**: Static type checking
-- **Pre-commit hooks**: Automated code quality checks
+This product uses the TMDB API but is not endorsed or certified by TMDB. Viewing availability is supplied by JustWatch through TMDB. Official TMDB logo source: [logos and attribution](https://www.themoviedb.org/about/logos-attribution).
 
-## 🎨 Styling
-
-### Design System
-
-- **Tailwind CSS** for utility-first styling
-- **Radix UI** for accessible component primitives
-- **Custom CSS variables** for theme management
-- **Responsive design** with mobile-first approach
-
-### Theme Support
-
-- Dark/light theme switching
-- CSS custom properties for consistent theming
-- Radix UI theme integration
-
-## 📱 Browser Support
-
-### Minimum Requirements
-
-- **WebGL 2.0** support
-- **ES2018** JavaScript features
-- **Modern browsers**: Chrome 70+, Firefox 78+, Safari 14+, Edge 79+
-
-### Performance Considerations
-
-- **GPU Requirements**: Dedicated graphics recommended for optimal performance
-- **Memory**: 2GB+ RAM recommended for large datasets
-- **Network**: Good connection for media loading
-
-## 🚀 Deployment
-
-### Production Build
-
-```bash
-bun build              # Create production build
-bun preview            # Preview production build
-```
-
-### Security Headers
-
-The application requires specific security headers:
-
-- **COEP**: `require-corp` for production
-- **CORS**: Proper media hosting configuration
-- **CSP**: Content Security Policy for WebGL applications
-
-## 🤝 Contributing
-
-### Development Setup
-
-1. Follow the [Quick Start](#-quick-start) guide
-2. Install development dependencies
-3. Run the development server
-4. Make your changes
-5. Run tests: `bun test:unit && bun test:e2e`
-6. Ensure code quality: `bun check`
-
-### Code Style
-
-- **Biome** for linting and formatting
-- **Single quotes** for JS/TS strings  
-- **2-space indentation**
-- **Semicolons** only when needed
-- **Tailwind class sorting** enabled
-
-### Commit Guidelines
-
-- Use descriptive commit messages
-- Reference issues when applicable
-- Include tests for new features
-- Ensure all checks pass
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-**Exceptions**: 
-- WebGL fragment shaders are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
-- Film data is licensed under the Open Data Commons Attribution License (ODC-By) v1.0.
-
-## 🙋‍♂️ Support
-
-If you have any issues or questions:
-
-- **GitHub Issues**: Open an issue on this repository
-- **Email**: Contact at [96j0o1ivb@mozmail.com](mailto:96j0o1ivb@mozmail.com)
+Original app and engine: [There's nothing to watch](https://github.com/gnovotny/nothing-to-watch). Preserve [LICENSE](LICENSE), file-level copyright notices, and shader attribution. The retained shader includes CC BY-NC-SA 3.0 conditions; review those terms before commercial distribution. Movie imagery remains owned by its respective rights holders.
