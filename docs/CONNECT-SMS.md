@@ -1,12 +1,12 @@
 # Connect the texting number
 
-The website and movie guide are live at https://black-cinema-atlas.fresh-cream-7054.chatgpt.site . The SMS code is deployed but intentionally disabled. The owner deferred the Twilio payment/number connection until tomorrow. Do not complete payment, buy a number, or submit binding registration terms without the owner's required participation/authorization.
+The website and movie guide run on the unified production origin. The SMS code is deployed but intentionally disabled until SMS number activation.
 
 ## Prepared webhook
 
-- Inbound URL: `https://black-cinema-atlas.fresh-cream-7054.chatgpt.site/api/sms`
+- Inbound URL: `https://your-domain.com/api/sms`
 - Method: **POST**
-- Hosted origin: `https://black-cinema-atlas.fresh-cream-7054.chatgpt.site`
+- Hosted origin: configured via `PUBLIC_ORIGIN`
 - No local server or device tunnel is needed.
 
 ## Activation

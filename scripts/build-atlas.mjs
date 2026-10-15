@@ -12,6 +12,6 @@ function collect(dir){for(const entry of readdirSync(dir,{withFileTypes:true})){
 collect('dist/client');assets['/LICENSE']={body:readFileSync('LICENSE','utf8'),type:'text/plain; charset=utf-8'};
 writeFileSync('atlas/generated-assets.mjs','export default '+JSON.stringify(assets)+';');
 mkdirSync('dist/server',{recursive:true});await build({entryPoints:['atlas/worker.mjs'],outfile:'dist/server/index.js',bundle:true,minify:true,format:'esm',platform:'browser',target:'es2022'});
-mkdirSync('dist/.openai',{recursive:true});cpSync('.openai/hosting.json','dist/.openai/hosting.json');cpSync('drizzle','dist/drizzle',{recursive:true});
+cpSync('drizzle','dist/drizzle',{recursive:true});
 console.log('Built cloud Worker, client assets, and database migrations.');
 

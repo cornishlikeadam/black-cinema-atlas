@@ -1,6 +1,6 @@
 // Exercises a new anonymous session; never reads local or hosted credentials.
 import {writeFileSync} from 'node:fs';
-const base=new URL(process.argv[2]??'https://black-cinema-atlas.fresh-cream-7054.chatgpt.site').origin;
+const base=new URL(process.argv[2]??process.env.ATLAS_URL??'http://localhost:3000').origin;
 let cookie='';const jar=new Map(),checks=[];
 async function api(path,method='GET',body){const r=await fetch(base+path,{method,headers:{Origin:base,'Content-Type':'application/json',...(cookie?{Cookie:cookie}:{})},...(body===undefined?{}:{body:JSON.stringify(body)}),signal:AbortSignal.timeout(110000)});for(const entry of r.headers.getSetCookie()){const pair=entry.split(';')[0],i=pair.indexOf('=');jar.set(pair.slice(0,i),pair.slice(i+1))}cookie=[...jar].map(([k,v])=>k+'='+v).join('; ');const d=await r.json();if(!r.ok)throw new Error(`${path}: ${r.status} ${d.error}`);return d}
 async function check(name,fn){try{const detail=await fn();checks.push({name,pass:true,...detail})}catch(e){checks.push({name,pass:false,error:e.message})}}
