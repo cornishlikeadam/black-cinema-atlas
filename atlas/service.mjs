@@ -57,7 +57,7 @@ export async function consumeLimit(env,key,max,windowMs){
  const row=await env.DB.prepare('INSERT INTO counters(key,count,expires_at) VALUES(?,1,?) ON CONFLICT(key) DO UPDATE SET count=count+1 RETURNING count').bind(id,(bucket+1)*windowMs).first();
  if(row.count>max)throw new AppError('The guide has reached its usage limit. Please try again later.',429);
 }
-const facet=field=>({type:'STRING',enum:['',...new Set(seed.flatMap(f=>f[field]))]});
+const facet=field=>({type:'STRING',enum:[...new Set(seed.flatMap(f=>f[field]))]});
 const toolSchemas=[
  {name:'search_films',description:'Search the curated Black cinema catalog by film, person, theme, genre, decade or city.',parameters:{type:'OBJECT',properties:{query:{type:'STRING',description:'Title, person name or keywords only; use an empty string when using filters. Do not include words like movie, film or story.'},decade:facet('decade'),genre:facet('genres'),theme:facet('themes'),city:facet('cities')},required:['query']}},
  {name:'get_film',description:'Get verified credits, runtime, trailer and current country-specific viewing providers. Call before claiming availability.',parameters:{type:'OBJECT',properties:{id:{type:'INTEGER'},region:{type:'STRING'}},required:['id']}},
